@@ -49,12 +49,8 @@ define network_config::ifconfig (
   }
 
   ini_setting {
-    "${title} ipaddress":
-      setting => 'IPADDR',
-      value => $ipaddress;
-
     "${title} netmask":
-      setting => 'NETMASK',
+      setting => 'NETMASK0',
       value => $netmask;
 
     "${title} bootproto":
@@ -110,15 +106,15 @@ define network_config::ifconfig (
       value => $hwaddr;
 
     "${title} ipaddr":
-      setting => 'IPADDR',
+      setting => 'IPADDR0',
       value => $ipaddr;
 
     "${title} prefix":
-      setting => 'PREFIX',
+      setting => 'PREFIX0',
       value => $prefix;
 
     "${title} gateway":
-      setting => 'GATEWAY',
+      setting => 'GATEWAY0',
       value => $gateway;
 
     "${title} ipv6_peerdns":
