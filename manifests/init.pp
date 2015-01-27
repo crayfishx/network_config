@@ -66,10 +66,10 @@
 #
 #     network_config::ifconfig:
 #       management:
-#         ipaddress: 10.26.96.29
+#         ipaddr: 10.26.96.29
 #         netmask: 255.255.248.0
 #       app:
-#         ipaddress: 10.24.33.29
+#         ipaddr: 10.24.33.29
 #         netmask: 255.255.255.0
 #
 # [*exclude_if*]
@@ -80,7 +80,6 @@
 # Currently the following settings can be managed in either the ifconfig
 # or defaults hash:
 #
-#    ipaddress
 #    netmask
 #    bootproto
 #    defroute
