@@ -1,0 +1,17 @@
+{
+  "name": "Basler-network_config",
+  "version": "0.1.0",
+  "author": "Basler",
+  "summary": "Network interface management for RHEL servers",
+  "license": "none",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_range": ">= 1.0.0"
+    }
+  ]
+}
+
