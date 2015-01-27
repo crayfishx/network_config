@@ -50,7 +50,7 @@ define network_config::ifconfig (
 
   ini_setting {
     "${title} ipaddress":
-      setting => 'IPADDRESS',
+      setting => 'IPADDR',
       value => $ipaddress;
 
     "${title} netmask":

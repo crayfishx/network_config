@@ -55,6 +55,7 @@
 #        dns1: 10.24.5.10
 #        gateway: 10.64.3.1
 #        zone: trusted
+#        defroute: yes
 #
 # [*ifconfig*]
 #   A hash that contains per-host specific interface configuration,
