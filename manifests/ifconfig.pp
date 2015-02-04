@@ -32,6 +32,7 @@ define network_config::ifconfig (
   $gateway=undef,
   $ipv6_peerdns=undef,
   $ipv6_peerroutes=undef,
+  $interface_type=undef,
   $zone=undef
 ) {
 
@@ -135,7 +136,7 @@ define network_config::ifconfig (
 
     "${title} type":
       setting => 'TYPE',
-      value => $type;
+      value => $interface_type;
     }
 
 }
