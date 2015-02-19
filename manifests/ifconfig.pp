@@ -11,7 +11,7 @@
 #
 # 
 define network_config::ifconfig (
-  $target = "/etc/sysconfig/network-scripts/ifcfg-${title}",
+  $device=$title,
   $ipaddress=undef,
   $interface_type=undef,
   $netmask=undef,
@@ -35,7 +35,6 @@ define network_config::ifconfig (
   $ipv6_peerroutes=undef,
   $zone=undef,
   $vlan=undef,
-  $device=undef,
   $interface_name=$title,
   $bonding_opts=undef,
   $bonding_master=undef,
@@ -43,9 +42,11 @@ define network_config::ifconfig (
   $master=undef,
 ) {
 
+  $target = "/etc/sysconfig/network-scripts/ifcfg-${interface_name}"
 
   Network_config::Ifconfig::Setting {
     target => $target,
+    notify => Service['network'],
   }
 
   network_config::ifconfig::setting {

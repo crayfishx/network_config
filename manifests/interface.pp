@@ -14,7 +14,6 @@
 #
 # 
 define network_config::interface  (
-  $target = "/etc/sysconfig/network-scripts/ifcfg-${title}"
 ) {
 
   # Determine what type of interface we are configuring (eg: management)
@@ -22,18 +21,28 @@ define network_config::interface  (
 
   # Look up the default values for this interface type
   # and also add the 'target' parameter to the hash
-  $int_defaults = merge($::network_config::defaults[$int_type], { target => $target })
+  $int_defaults = merge($::network_config::defaults[$int_type], {})
+
+
+
+
 
   # Look up the override paramters for this host (ipaddress..etc)
-  $int_params = $::network_config::ifconfig[$int_type]
+  $int_params = merge($::network_config::ifconfig[$int_type], {})
+
+  $vlan = $::network_config::vlans[$int_params['vlan']]
+  $params_merged = merge($vlan, $int_params)
+
 
   # Build the resource hash, consisting of the interface id and parameters
-  $resource = { "${title}" => $int_params }
+  $resource = { "${title}" => $params_merged }
 
   # Pass the resource and defaults hash to create_resources to declare
   # a network_config::ifconfig resource to manage the individual parts
   # of the sysconfig file.
-  create_resources('network_config::ifconfig', $resource , $int_defaults)
+  if ( $int_type ) {
+    create_resources('network_config::ifconfig', $resource , $int_defaults)
+  }
 
 }
 

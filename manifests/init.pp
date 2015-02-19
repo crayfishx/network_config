@@ -123,7 +123,9 @@ class network_config (
   $interface_names,
   $defaults,
   $ifconfig,
+  $vlans,
   $exclude_if = 'lo',
+  $bonds = {}
 ) {
 
   # In this base class we pull in the data from hiera, which
@@ -138,6 +140,13 @@ class network_config (
   $parsed_ints = delete($int_a, $exclude_if)
 
   network_config::interface { $parsed_ints: }
+  create_resources('network_config::bond', $bonds)
+
+  service { 'network':
+    ensure => running,
+  }
+
+
 }
 
 

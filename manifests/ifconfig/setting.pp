@@ -12,7 +12,6 @@ define network_config::ifconfig::setting (
   }
 
   if ( $value ) {
- notify { "${title} setting $real_setting to $value in $target": }
     ini_setting { "network_config::ifconfig::${target}${title}":
       path              => $target,
       ensure            => present,
