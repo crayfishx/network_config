@@ -12,7 +12,6 @@
 # 
 define network_config::ifconfig (
   $device=$title,
-  $ipaddress=undef,
   $interface_type=undef,
   $netmask=undef,
   $bootproto=undef,
@@ -40,14 +39,35 @@ define network_config::ifconfig (
   $bonding_master=undef,
   $slave=undef,
   $master=undef,
+  $networkmanager=$::network_config::networkmanager,
 ) {
 
-  $target = "/etc/sysconfig/network-scripts/ifcfg-${interface_name}"
+  $target = "/tmp/sysconfig/ifcfg-${interface_name}"
+  #$target = "/etc/sysconfig/network-scripts/ifcfg-${interface_name}"
+
+  $ipaddress = any2array($ipaddr)
 
   Network_config::Ifconfig::Setting {
     target => $target,
     notify => Service['network'],
   }
+
+  if $networkmanager {
+    network_config::ifconfig::setting { "${title}:ipaddr": ensure => absent }
+    network_config::ifconfig::setting { "${title}:prefix": ensure => absent }
+    network_config::ifconfig::setting { "${title}:gateway": ensure => absent }
+    nm_create_ip($ipaddress, $prefix, $gateway, 'IPADDR', $title, { "target" => $target })
+  } else {
+    network_config::ifconfig::setting {
+      "${title}:ipaddr": value => $ipaddress[0];
+      "${title}:prefix": value => $prefix;
+      "${title}:gateway": value => $gateway;
+    }
+  }
+    
+
+
+
 
   network_config::ifconfig::setting {
     "${title}:netmask":  value => $netmask;
@@ -64,9 +84,6 @@ define network_config::ifconfig (
     "${title}:dns2": value => $dns2;
     "${title}:domain": value => $domain;
     "${title}:hwaddr": value => $hwaddr;
-    "${title}:ipaddr": value => $ipaddr;
-    "${title}:prefix": value => $prefix;
-    "${title}:gateway": value => $gateway;
     "${title}:ipv6_peerdns": value => $ipv6_peerdns;
     "${title}:ipv6_peerroutes": value => $ipv6_peerroutes;
     "${title}:zone": value => $zone;

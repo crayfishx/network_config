@@ -125,8 +125,9 @@ class network_config (
   $ifconfig,
   $vlans,
   $exclude_if = 'lo',
+  $networkmanager = $::network_config::params::networkmanager,
   $bonds = {}
-) {
+) inherits network_config::params {
 
   # In this base class we pull in the data from hiera, which
   # will get referenced here from the interface definition below.

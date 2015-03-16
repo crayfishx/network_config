@@ -1,7 +1,8 @@
 define network_config::ifconfig::setting (
+  $ensure = 'present',
   $target,
   $setting = false,
-  $value,
+  $value = undef,
 ) { 
 
 
@@ -11,10 +12,10 @@ define network_config::ifconfig::setting (
     $real_setting = inline_template('<%= @title.split(/:/)[1].to_s.upcase %>')
   }
 
-  if ( $value ) {
+  if ( $value or $ensure == 'absent' ) {
     ini_setting { "network_config::ifconfig::${target}${title}":
       path              => $target,
-      ensure            => present,
+      ensure            => $ensure,
       section           => '',
       key_val_separator => '=',
       setting           => $real_setting,
