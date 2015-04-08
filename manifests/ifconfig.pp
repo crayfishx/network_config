@@ -42,8 +42,8 @@ define network_config::ifconfig (
   $networkmanager=$::network_config::networkmanager,
 ) {
 
-  $target = "/tmp/sysconfig/ifcfg-${interface_name}"
-  #$target = "/etc/sysconfig/network-scripts/ifcfg-${interface_name}"
+  #$target = "/tmp/sysconfig/ifcfg-${interface_name}"
+  $target = "/etc/sysconfig/network-scripts/ifcfg-${interface_name}"
 
   $ipaddress = any2array($ipaddr)
 
