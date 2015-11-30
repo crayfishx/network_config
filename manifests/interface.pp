@@ -21,7 +21,7 @@ define network_config::interface  (
 
   # Look up the default values for this interface type
   # and also add the 'target' parameter to the hash
-  $int_defaults = merge($::network_config::defaults[$int_type], {})
+  $int_defaults = merge($::network_config::defaults[$int_type], {} })
 
 
 
@@ -36,6 +36,15 @@ define network_config::interface  (
 
   # Build the resource hash, consisting of the interface id and parameters
   $resource = { "${title}" => $params_merged }
+
+
+  service { "ifconfig-${title}":
+    ensure => running,
+    hasrestart => false,
+    start      => "/sbin/ifup ${title}",
+    stop       => "/sbin/ifdown ${title}",
+  }
+
 
   # Pass the resource and defaults hash to create_resources to declare
   # a network_config::ifconfig resource to manage the individual parts

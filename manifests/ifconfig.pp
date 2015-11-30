@@ -47,9 +47,17 @@ define network_config::ifconfig (
 
   $ipaddress = any2array($ipaddr)
 
+
+  # If $::network_config::restart_service is true then we just restart 
+  # the service.  If it is set to false then we behave slightly differently
+  # and only restart the network interface that is affected.
+  #
   Network_config::Ifconfig::Setting {
     target => $target,
-    notify => Service['network'],
+    notify => $::network_config::restart_service ? {
+      true    => Service['network'],
+      default => Service[$interface_name],
+    }
   }
 
   if $networkmanager {
