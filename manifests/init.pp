@@ -126,6 +126,7 @@ class network_config (
   $vlans,
   $exclude_if = 'lo',
   $networkmanager = $::network_config::params::networkmanager,
+  $restart_service = true,
   $bonds = {}
 ) inherits network_config::params {
 
