@@ -16,15 +16,25 @@
 define network_config::interface  (
 ) {
 
+
+  # Declare a service for this interface
+  service { "ifconfig-${name}":
+    ensure     => running,
+    status     => "/bin/cat /sys/class/net/${name}/operstate | grep up",
+    stop       => "/sbin/ifdown ${name}",
+    start      => "/sbin/ifup ${name}",
+    hasrestart => false,
+    hasstatus  => false,
+    provider   => 'base'
+  }
+
+
   # Determine what type of interface we are configuring (eg: management)
   $int_type = $::network_config::interface_names[$title]
 
   # Look up the default values for this interface type
   # and also add the 'target' parameter to the hash
-  $int_defaults = merge($::network_config::defaults[$int_type], {} })
-
-
-
+  $int_defaults = merge($::network_config::defaults[$int_type], {} )
 
 
   # Look up the override paramters for this host (ipaddress..etc)
@@ -36,14 +46,6 @@ define network_config::interface  (
 
   # Build the resource hash, consisting of the interface id and parameters
   $resource = { "${title}" => $params_merged }
-
-
-  service { "ifconfig-${title}":
-    ensure => running,
-    hasrestart => false,
-    start      => "/sbin/ifup ${title}",
-    stop       => "/sbin/ifdown ${title}",
-  }
 
 
   # Pass the resource and defaults hash to create_resources to declare
