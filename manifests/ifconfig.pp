@@ -56,7 +56,7 @@ define network_config::ifconfig (
     target => $target,
     notify => $::network_config::restart_service ? {
       true    => Service['network'],
-      default => Service[$interface_name],
+      default => Service["ifconfig-${interface_name}"],
     }
   }
 
