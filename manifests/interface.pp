@@ -32,15 +32,35 @@ define network_config::interface  (
   # Determine what type of interface we are configuring (eg: management)
   $int_type = $::network_config::interface_names[$title]
 
+  ## If we are a bond interface, add the slave patrameter
+  if $int_type == 'bond_interface' {
+
+    ## Determine which bond we belong to
+    $bonds = $::network_config::bonds
+    $master = inline_template('<%= @bonds.select { |b,i| i["interfaces"].include?(@name) }.keys[0] %>')
+    if ( $master ) {
+      $slave_config = {
+        'slave'  => 'yes',
+        'master' => $master
+      }
+    }
+  } else {
+    $slave_config = {}
+  }
+
+
+
+
   # Look up the default values for this interface type
   # and also add the 'target' parameter to the hash
-  $int_defaults = merge($::network_config::defaults[$int_type], {} )
+  $int_defaults = merge($::network_config::defaults[$int_type], $slave_config )
 
 
   # Look up the override paramters for this host (ipaddress..etc)
   $int_params = merge($::network_config::ifconfig[$int_type], {})
 
   $vlan = $::network_config::vlans[$int_params['vlan']]
+
   $params_merged = merge($vlan, $int_params)
 
 
