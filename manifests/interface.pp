@@ -20,7 +20,7 @@ define network_config::interface  (
   # Declare a service for this interface
   service { "ifconfig-${name}":
     ensure     => running,
-    status     => "/bin/cat /sys/class/net/${name}/operstate | grep up",
+    status     => "/usr/bin/grep 1 /sys/class/net/${name}/carrier",
     stop       => "/sbin/ifdown ${name}",
     start      => "/sbin/ifup ${name}",
     hasrestart => false,
