@@ -18,7 +18,7 @@ define network_config::interface  (
 
 
   if !defined(Class['network_config']) {
-    fail("network_config base class must be included before network_config::interface")
+    fail('network_config base class must be included before network_config::interface')
   }
 
   # Declare a service for this interface.  This enabled individual
@@ -66,10 +66,10 @@ define network_config::interface  (
   # Look up any bond specific overrides
   if $bonds[$name] {
     $bond_defaults = {
-      "interface_type" => "Bond",
-      "bonding_master" => "yes"
+      'interface_type' => 'Bond',
+      'bonding_master' => 'yes'
     }
-    $bond_overrides = merge($bond_defaults,delete($bonds[$name], "interfaces"))
+    $bond_overrides = merge($bond_defaults,delete($bonds[$name], 'interfaces'))
   } else {
     $bond_overrides = {}
   }
@@ -92,15 +92,15 @@ define network_config::interface  (
   # Here we take all of the various configurations and merge them in the 
   # right order (right wins).  Starting with interface defaults and finally
   # ifconfig params.
-  $params_merged = merge($int_defaults, 
-                         $bond_overrides, 
-                         $slave_config, 
-                         $vlan_overrides, 
-                         $int_params)
+  $params_merged = merge( $int_defaults,
+                          $bond_overrides,
+                          $slave_config,
+                          $vlan_overrides,
+                          $int_params)
 
 
   # Build the resource hash, consisting of the interface id and parameters
-  $resource = { "${title}" => $params_merged }
+  $resource = { $title => $params_merged }
 
 
   # Pass the resource and defaults hash to create_resources to declare

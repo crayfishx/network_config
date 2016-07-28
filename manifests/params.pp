@@ -1,3 +1,5 @@
+# Parameters for network_config
+#
 class network_config::params {
 
   case $::osfamily {
@@ -9,7 +11,7 @@ class network_config::params {
       }
     }
     default: {
-      fail("This module is not supported on $::osfamily")
+      fail("This module is not supported on ${::osfamily}")
     }
   }
 
