@@ -140,7 +140,8 @@ class network_config (
   $int_a = split($interfaces,',')
   $parsed_ints = delete($int_a, $exclude_if)
 
-  network_config::interface { keys($bonds): }
+  $bond_names = keys($bonds)
+  network_config::interface { $bond_names: }
   network_config::interface { $parsed_ints: }
 
 }
