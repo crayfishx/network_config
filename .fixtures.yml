@@ -1,0 +1,8 @@
+---
+fixtures:
+  symlinks:
+    network_config: "#{source_dir}"
+
+  forge_modules:
+    stdlib: "puppetlabs/stdlib"
+    inifile: "puppetlabs/inifile"
