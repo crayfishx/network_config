@@ -34,7 +34,6 @@ define network_config::ifconfig (
   $ipv6_peerroutes=undef,
   $zone=undef,
   $vlan=undef,
-  $interface_name=$title,
   $bonding_opts=undef,
   $bonding_master=undef,
   $slave=undef,
@@ -53,7 +52,9 @@ define network_config::ifconfig (
       ensure    => present,
       prefix    => $prefix,
       gateway   => $gateway,
-      interface => $interface_name,
+      interface => $name,
+      require   => Network_interface[$name],
+      notify    => Service["ifconfig-${name}"],
     }
     ip_allocation { $ip_allocations: }
   }
@@ -84,6 +85,7 @@ define network_config::ifconfig (
     bonding_master     => $bonding_master,
     master             => $master,
     slave              => $slave,
+    notify             => Service["ifconfig-${title}"],
   }
 
 

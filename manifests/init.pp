@@ -126,6 +126,7 @@ class network_config (
   $exclude_if = 'lo',
   $networkmanager = $::network_config::params::networkmanager,
   $restart_service = true,
+  $service_name = 'network',
   $bonds = {}
 ) inherits network_config::params {
 
@@ -142,6 +143,10 @@ class network_config (
 
   network_config::interface { keys($bonds): }
   network_config::interface { $parsed_ints: }
+
+  service { $service_name:
+    ensure => running,
+  }
 
 }
 
