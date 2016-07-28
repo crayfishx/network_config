@@ -1,0 +1,45 @@
+
+####### Global level (common) settings
+#
+#
+network_config::interface_names:
+  ens39: management
+  ens99: app
+
+network_config::defaults:
+  management:
+    bootproto: "none"
+    defroute: "no"
+    dns1: 10.0.0.2
+    dns2: 10.0.0.3
+    domain: enviatics.com
+    interface_type: "Ethernet"
+    onboot: "yes"
+  app:
+    bootproto: "none"
+    defroute: "no"
+    dns1: 10.0.6.2
+    dns2: 10.0.6.3
+    domain: app.enviatics.com
+    interface_type: "Ethernet"
+    onboot: "yes"
+    
+network_config::vlans:
+  100:
+    prefix: 24
+    gateway: 10.7.6.3
+  200:
+    prefix: 23
+    gateway: 10.9.1.2
+
+
+  
+###### Host level settings
+#
+network_config::ifconfig:
+  management:
+    ipaddr: 10.7.6.10
+    vlan: 100
+  app:
+    ipaddr: 10.9.1.10
+    vlan: 200
