@@ -363,3 +363,9 @@ BONDING_OPTS=miimon=100 mode=1
 | slave | SLAVE  |   |
 | netboot  | NETBOOT  |   |
 | nm_controlled | NM_CONTROLLED  |   |
+
+
+## Author
+
+* Written and maintained by Craig Dunn <craig@craigdunn.org> @crayfishx
+* Sponsered by Baloise Group [http://baloise.github.io](http://baloise.github.io)
