@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/crayfishx/network_config.svg?branch=master)](https://travis-ci.org/crayfishx/network_config)
+
 # network_config
 
 #### Table of Contents
