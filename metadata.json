@@ -1,0 +1,21 @@
+{
+  "name": "crayfishx/network_config",
+  "version": "0.5.0",
+  "author": "crayfishx",
+  "tags": [ "network manager", "network", "ip", "interface", "ifconfig" ],
+  "summary": "Manage network configuration for RedHat 7",
+  "license": "Apache-2.0",
+  "source": "https://github.com/crayfishx/network_config",
+  "project_page": "https://github.com/crayfishx/network_config",
+  "issues_url": "https://github.com/crayfishx/network_config/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0 < 5.0.0"},
+    {"name":"puppetlabs-inifile","version_requirement":">= 1.0.0 < 2.0.0"}
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.0.0 < 5.0.0"
+    }
+  ]
+}
