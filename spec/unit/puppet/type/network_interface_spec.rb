@@ -43,38 +43,6 @@ describe Puppet::Type.type(:network_interface) do
   end
 
 
-  describe "provider" do
-   let(:provider) do
-     resource = Puppet::Type.type(:network_interface).new(
-       :name      => 'ens99',
-       :ensure    => 'present',
-       :bootproto => 'none',
-       :defroute  => 'no',
-       :device    => 'ens99',
-       :dns1      => '10.0.6.2',
-       :dns2      => '10.0.6.3',
-       :domain    => 'app.enviatics.com',
-       :onboot    => 'yes',
-       :slave     => 'yes',
-       :type      => 'Ethernet',
-     )
-     prov = Puppet::Type.type(:network_interface).provider(:default)
-     prov.prefetch( { resource.name => resource } )
-    end
-
-   it "should exist" do
-     expect(provider.exists?).to be_truthy
-   end
-
-   it "should delete the ifconfig file on purge" do
-     File.expects(:delete).with("/etc/sysconfig/ifcfg-ens99")
-     provider.destroy
-   end
-
-  end
-    
-
-
 
 end
 

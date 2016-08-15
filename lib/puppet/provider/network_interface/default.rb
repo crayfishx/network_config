@@ -84,7 +84,8 @@ Puppet::Type.type(:network_interface).provide(:default) do
   end
 
   def flush
-    if @resource[:ensure] == :absent
+    puts "FLUSHIG"
+    if @property_flush[:ensure] == :absent
       filename = File.join(CONF_DIR, "ifcfg-#{resource.name}")
       File.delete(filename) if File.exists?(filename)
     else
