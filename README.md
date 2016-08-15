@@ -126,7 +126,7 @@ class { 'network_config': }
 | `exclude_if`      | List of interfaces to exclude from management, even if `interfaces` has them | lo |
 | `networkmanager`  | True or false, is NetworkManager enabled (to be deprecated) | RHEL7 true, RHEL6 false |
 | `restart_service`* | Whether or not to restart the network service on change | true |
-| `restart_interface`* | Whether or not to restart the affected network interface on change | true |
+| `restart_interface`* | Whether or not to restart the affected network interface on change | false |
 
  _* only one of restart_interface or restart_service can be defined_
 
