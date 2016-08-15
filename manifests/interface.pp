@@ -21,7 +21,7 @@ define network_config::interface  (
     fail('network_config base class must be included before network_config::interface')
   }
 
-  # Declare a service for this interface.  This enabled individual
+  # Declare a service for this interface.  This enables individual
   # interfaces to be restarted upon change, rather than the whole
   # network service.
   #
@@ -89,10 +89,21 @@ define network_config::interface  (
     }
   }
 
+  # Set the correct service to restart
+  if $::network_config::restart_service {
+    $notify_resource = { 'notify' => Service['network'] }
+  } elsif $::network_config::restart_interface {
+    $notify_resource = { 'notify' => Service["ifconfig-${name}"] }
+  } else {
+    $notify_resource = {}
+  }
+
+
   # Here we take all of the various configurations and merge them in the 
   # right order (right wins).  Starting with interface defaults and finally
   # ifconfig params.
-  $params_merged = merge( $int_defaults,
+  $params_merged = merge( $notify_resource,
+                          $int_defaults,
                           $bond_overrides,
                           $slave_config,
                           $vlan_overrides,
