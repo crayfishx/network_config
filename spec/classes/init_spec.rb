@@ -50,5 +50,80 @@ describe 'network_config' do
       it { is_expected.to contain_network_interface(int).with(network_interface_cfg) }
     end
   end
+
+  context "When specifying restart_service" do
+    let(:params) {{
+      :restart_service => true,
+      :restart_interface => false,
+    }}
+
+    it  "should have network_interfaces notifying the network service" do
+      [ 'ens39', 'ens99', 'ens51', 'ens52' ].each do |int|
+        is_expected.to contain_network_interface(int).that_notifies('Service[network]')
+        is_expected.not_to contain_network_interface(int).that_notifies("Service[ifconfig-#{int}]")
+      end
+    end
+
+    it "should have ip_allocations notifying the network service" do
+      [ '10.9.1.10', '10.7.6.10', '10.1.1.1' ].each do |ip|
+        is_expected.to contain_ip_allocation(ip).that_notifies('Service[network]')
+      end
+    end
+
+  end
+
+  context "When specifying restart_interface" do
+    let(:params) {{
+      :restart_service => false,
+      :restart_interface => true,
+    }}
+    it "should have network_interfaces notifying the interface service" do
+      [ 'ens39', 'ens99', 'ens51', 'ens52' ].each do |int|
+        is_expected.not_to contain_network_interface(int).that_notifies('Service[network]')
+        is_expected.to contain_network_interface(int).that_notifies("Service[ifconfig-#{int}]")
+      end
+    end
+
+    it "should have ip_allocations that notify the interface" do
+      is_expected.to contain_ip_allocation('10.9.1.10').that_notifies("Service[ifconfig-ens99]")
+      is_expected.to contain_ip_allocation('10.7.6.10').that_notifies("Service[ifconfig-ens39]")
+      is_expected.to contain_ip_allocation('10.1.1.1').that_notifies("Service[ifconfig-bond0]")
+    end
+
+    it "should not notify the network service from ip allocations" do
+      is_expected.not_to contain_ip_allocation('10.9.1.10').that_notifies("Service[network]")
+      is_expected.not_to contain_ip_allocation('10.7.6.10').that_notifies("Service[network]")
+      is_expected.not_to contain_ip_allocation('10.1.1.1').that_notifies("Service[network]")
+    end
+
+  end
+
+
+  context "When specifying no restarts" do
+    let(:params) {{
+      :restart_service => false,
+      :restart_interface => false,
+    }}
+    it "should have network_interfaces notifying the interface service" do
+      [ 'ens39', 'ens99', 'ens51', 'ens52' ].each do |int|
+        is_expected.not_to contain_network_interface(int).that_notifies('Service[network]')
+        is_expected.not_to contain_network_interface(int).that_notifies("Service[ifconfig-#{int}]")
+      end
+    end
+
+    it "should have ip_allocations that notify the interface" do
+      is_expected.not_to contain_ip_allocation('10.9.1.10').that_notifies("Service[ifconfig-ens99]")
+      is_expected.not_to contain_ip_allocation('10.7.6.10').that_notifies("Service[ifconfig-ens39]")
+      is_expected.not_to contain_ip_allocation('10.1.1.1').that_notifies("Service[ifconfig-bond0]")
+    end
+
+    it "should not notify the network service from ip allocations" do
+      is_expected.not_to contain_ip_allocation('10.9.1.10').that_notifies("Service[network]")
+      is_expected.not_to contain_ip_allocation('10.7.6.10').that_notifies("Service[network]")
+      is_expected.not_to contain_ip_allocation('10.1.1.1').that_notifies("Service[network]")
+    end
+
+  end
+
 end
 
