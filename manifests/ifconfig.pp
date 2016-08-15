@@ -54,6 +54,7 @@ define network_config::ifconfig (
       prefix    => $prefix,
       gateway   => $gateway,
       interface => $interface_name,
+      notify    => 
     }
     ip_allocation { $ip_allocations: }
   }
