@@ -126,11 +126,21 @@ class network_config (
   $exclude_if = 'lo',
   $networkmanager = $::network_config::params::networkmanager,
   $restart_service = true,
+  $restart_interface = false,
   $bonds = {}
 ) inherits network_config::params {
 
   # In this base class we pull in the data from hiera, which
   # will get referenced here from the interface definition below.
+
+  if $restart_interface and $restart_service {
+    fail('Only one of restart_interface or restart_service can be enabled')
+  }
+
+  service { 'network':
+    ensure => running,
+  }
+
 
   # Create an array of configured interfaces, minus any to be excluded
   # and then for each interface we declare a network_config::interface
