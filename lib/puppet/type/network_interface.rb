@@ -35,23 +35,6 @@ newproperty(:slave)
 newproperty(:netboot )
 newproperty(:nm_controlled)
 
-  def generate
-    
-    res=[]
-
-    # If a network_interface is set to :absent then we remove the file
-    # using the Puppet file resource, that way it can be filebucketed.
-
-    if self[:ensure] == :absent
-      res << Puppet::Type.type(:file).new(
-        :name => "/etc/sysconfig/network-scripts/ifcfg-#{self[:name]}",
-        :ensure => :absent,
-      )
-    end
-    res
-  end
-
-
 end
 
 
