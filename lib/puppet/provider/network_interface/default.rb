@@ -84,13 +84,17 @@ Puppet::Type.type(:network_interface).provide(:default) do
   end
 
   def flush
-    return true if @resource[:ensure] == :absent
-    FIELDS.each do |f|
-      if value = @property_flush[setting_to_param(f)]
-        ifconfig.set_value('', f, value)
+    if @resource[:ensure] == :absent
+      filename = File.join(CONF_DIR, "ifcfg-#{resource.name}")
+      File.delete(filename) if File.exists?(filename)
+    else
+      FIELDS.each do |f|
+        if value = @property_flush[setting_to_param(f)]
+          ifconfig.set_value('', f, value)
+        end
       end
+      ifconfig.save
     end
-    ifconfig.save
   end
 
 
