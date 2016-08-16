@@ -111,7 +111,7 @@ define network_config::interface  (
 
 
   # Build the resource hash, consisting of the interface id and parameters
-  $resource = { $title => $params_merged }
+  $resource = { "${title}" => $params_merged }
 
 
   # Pass the resource and defaults hash to create_resources to declare
