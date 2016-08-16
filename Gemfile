@@ -15,3 +15,13 @@ if RUBY_VERSION < '2.0'
   gem 'json_pure', '~> 1.0'
   gem 'rubocop', '0.41'
 end
+
+if RUBY_VERSION < '1.9'
+  gem 'rake', '~> 0.9'
+
+  # https://github.com/rspec/rspec-core/issues/1864
+  gem 'rspec', '< 3.2.0'
+else
+  gem 'rspec'
+
+end
