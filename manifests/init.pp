@@ -160,16 +160,20 @@ class network_config (
 
   if ( $purge_interfaces ) {
     purge { 'network_interface':
-      unless => [ [ 'name', '==', 'loopback' ], [ 'device', '==', 'lo' ] ],
+      unless => [
+        [ 'device', '==', $exclude_if ],
+        [ 'name', '==', $exclude_if ]
+      ],
     }
   }
 
   if ( $purge_ip_allocations ) {
     purge { 'ip_allocation':
-      unless => [ [ 'name', '==', '127.0.0.1' ], [ 'interface', '==', 'lo' ]],
-      before => Purge['network_interface'],
+      unless => [ [ 'name', '==', '127.0.0.1' ], [ 'interface', '==', $exclude_if ]],
     }
   }
+
+  Purge<| title == 'ip_allocation' |> -> Purge<| title == 'network_interface' |>
 
 
 }

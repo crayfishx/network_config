@@ -6,3 +6,4 @@ fixtures:
   forge_modules:
     stdlib: "puppetlabs/stdlib"
     inifile: "puppetlabs/inifile"
+    purge: "crayfishx/purge"
