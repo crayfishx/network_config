@@ -1,3 +1,7 @@
+#### 0.8.1
+
+* fixed forge dependencies
+
 
 ### 0.8.0
 
