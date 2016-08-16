@@ -125,6 +125,8 @@ class { 'network_config': }
 | `bonds`           | [Bond interfaces and specific configuration](#bonding) | {} |
 | `exclude_if`      | List of interfaces to exclude from management, even if `interfaces` has them | lo |
 | `networkmanager`  | True or false, is NetworkManager enabled (to be deprecated) | RHEL7 true, RHEL6 false |
+| `purge_interfaces` | True or false, whether or not to purge non managed interfaes (this will completely remove the ifcfg-<interface> file for interfaces not being managed by Puppet.  Any interface matching a device name of `lo` or a name of `loopback`  will not be purged | false |
+| `purge_ip_allocations | True or false, whether or not to purge unmanaged IP addresses, an IP address matching `127.0.0.1` or with the interface `lo` will not be purged | false |
 | `restart_service`* | Whether or not to restart the network service on change | true |
 | `restart_interface`* | Whether or not to restart the affected network interface on change | false |
 

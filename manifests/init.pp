@@ -127,6 +127,8 @@ class network_config (
   $networkmanager = $::network_config::params::networkmanager,
   $restart_service = true,
   $restart_interface = false,
+  $purge_interfaces = false,
+  $purge_ip_allocations = false,
   $bonds = {}
 ) inherits network_config::params {
 
@@ -141,7 +143,6 @@ class network_config (
     ensure => running,
   }
 
-
   # Create an array of configured interfaces, minus any to be excluded
   # and then for each interface we declare a network_config::interface
   # type to instantiate the setup for that interface using the data
@@ -153,6 +154,23 @@ class network_config (
   $bond_names = keys($bonds)
   network_config::interface { $bond_names: }
   network_config::interface { $parsed_ints: }
+
+  # If we have enabled purging, purge interfaces... we never purge
+  # the loopback interface
+
+  if ( $purge_interfaces ) {
+    purge { 'network_interface':
+      unless => [ [ 'name', '==', 'loopback' ], [ 'device', '==', 'lo' ] ],
+    }
+  }
+
+  if ( $purge_ip_allocations ) {
+    purge { 'ip_allocation':
+      unless => [ [ 'name', '==', '127.0.0.1' ], [ 'interface', '==', 'lo' ]],
+      before => Purge['network_interface'],
+    }
+  }
+
 
 }
 
