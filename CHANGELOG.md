@@ -1,3 +1,7 @@
+#### 0.9.0
+
+* Purging will exclude interfaces listed in $exclude_if
+
 #### 0.8.1
 
 * fixed forge dependencies
