@@ -1,5 +1,7 @@
 network_config::restart_service: false
 network_config::interfaces: ens39,ens99,ens51,ens52
+network_config::exclude_if:
+  - lo
 ####### Global level (common) settings
 #
 #

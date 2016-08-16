@@ -93,7 +93,8 @@ purge { 'ip_allocation':
 }
 ```
 
-For purging all interfaces and ip_allocations not matching loopback (as above) you can also set the `purge_interfaces` and `purge_ip_allocations` options on the `network_config` class
+For purging all interfaces and ip_allocations you can also set the `purge_interfaces` and `purge_ip_allocations` options on the `network_config` class.  When using these options, any interfaces with a `name` or `device` matching an entry in `exclude_if`, plus any IP allocations with an `interface` matching an entry in `exclude_if` will *not* be purged.   (NOTE: make sure you are running crayfishx/purge >= 1.1.0).  As a further precaution, an ip_allocation of `127.0.0.1` will never be purged by the class.
+
 
 
 ## Configuring the network_config module
