@@ -1,3 +1,7 @@
+#### 0.9.1
+
+* Fixed unquoted hash key which fails to compile on Puppet 3
+
 #### 0.9.0
 
 * Purging will exclude interfaces listed in $exclude_if
