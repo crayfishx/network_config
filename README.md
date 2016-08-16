@@ -93,6 +93,7 @@ purge { 'ip_allocation':
 }
 ```
 
+For purging all interfaces and ip_allocations not matching loopback (as above) you can also set the `purge_interfaces` and `purge_ip_allocations` options on the `network_config` class
 
 
 ## Configuring the network_config module
