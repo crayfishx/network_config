@@ -5,7 +5,6 @@ gem "puppet", puppetversion
 gem "puppetlabs_spec_helper"
 gem "hiera-puppet-helper"
 gem "fakefs"
-gem "rspec"
 gem "rspec-puppet"
 
 
