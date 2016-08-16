@@ -1,6 +1,7 @@
 language: ruby
 script: "bundle exec rake test SPEC_OPTS='--format documentation'"
 rvm:
+  - 1.8.7
   - 1.9.3
   - 2.0
   - 2.1
@@ -8,7 +9,6 @@ rvm:
 
 
 env:
-  - PUPPET_VERSION="~> 3.2.0"
   - PUPPET_VERSION="~> 3.6.2"
   - PUPPET_VERSION="~> 3.7.0"
   - PUPPET_VERSION="~> 3.8.0"
@@ -18,3 +18,22 @@ env:
   - PUPPET_VERSION="~> 4.4.0"
   - PUPPET_VERSION="~> 4.5.0"
 
+
+matrix:
+  exclude:
+    - rvm: 1.8.7
+      env: PUPPET_VERSION="~> 4.1.0"
+    - rvm: 1.8.7
+      env: PUPPET_VERSION="~> 4.2.0"
+    - rvm: 1.8.7
+      env: PUPPET_VERSION="~> 4.3.0"
+    - rvm: 1.8.7
+      env: PUPPET_VERSION="~> 4.4.0"
+    - rvm: 1.8.7
+      env: PUPPET_VERSION="~> 4.5.0"
+    - rvm: 2.2
+      env: PUPPET_VERSION="~> 3.6.0"
+    - rvm: 2.2
+      env: PUPPET_VERSION="~> 3.7.0"
+    - rvm: 2.2
+      env: PUPPET_VERSION="~> 3.8.0"
