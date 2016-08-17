@@ -1,5 +1,5 @@
 network_config::restart_service: false
-network_config::interfaces: ens39,ens99,ens51,ens52
+network_config::interfaces: ens39,ens99,ens51,ens52,ens80
 network_config::exclude_if:
   - lo
 ####### Global level (common) settings
@@ -11,6 +11,7 @@ network_config::interface_names:
   ens51: bond_interface
   ens52: bond_interface
   bond0: management
+  ens80: multi
 
 network_config::bonds:
   bond0:
@@ -50,6 +51,12 @@ network_config::defaults:
     defroute: "no"
     onboot: "yes"
 
+# An interface type we use for testing multiple bound interfaces
+  multi:
+    bootproto: "none"
+    defroute: "no"
+    onboot: "yes"
+
     
 network_config::vlans:
   100:
@@ -76,3 +83,9 @@ network_config::ifconfig:
   management:
     ipaddr: 10.1.1.1
     vlan: 300
+  multi:
+    ipaddr:
+      - 10.0.0.1
+      - 10.0.0.2
+      - 10.0.0.3
+    vlan: 100

@@ -51,6 +51,18 @@ describe 'network_config' do
     end
   end
 
+  context "When specifying multiple IP addresses" do
+    it "should contain individual ip allocations on the same vlan" do
+      [ '10.0.0.1', '10.0.0.2', '10.0.0.3' ]. each do |ip|
+        is_expected.to contain_ip_allocation(ip).with(
+          :prefix => "24",
+          :gateway => "10.7.6.3",
+          :interface => "ens80",
+        )
+      end
+    end
+  end
+
   context "When specifying restart_service" do
     let(:params) {{
       :restart_service => true,
