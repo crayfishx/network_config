@@ -125,6 +125,7 @@ class { 'network_config': }
 | `vlans`           | [VLAN specific configuration](#network_configvlans) | n/a |
 | `ifconfig`        | [Host specific interface configuration](#network_configifconfig) | n/a |
 | `bonds`           | [Bond interfaces and specific configuration](#bonding) | {} |
+| `bond_defaults`   | Optional hash of default configuration for bond configuration | {} |
 | `exclude_if`      | List of interfaces to exclude from management, even if `interfaces` has them | lo |
 | `networkmanager`  | True or false, is NetworkManager enabled (to be deprecated) | RHEL7 true, RHEL6 false |
 | `purge_interfaces` | True or false, whether or not to purge non managed interfaes (this will completely remove the ifcfg-<interface> file for interfaces not being managed by Puppet.  Any interface matching a device name of `lo` or a name of `loopback`  will not be purged | false |
@@ -334,7 +335,21 @@ network_config::bonds:
       - eth4
 ```
 
-will configure in `bond0`
+Shared configuration common to all bond interfaces maybe defined in the `bond_defaults` hash
+
+```yaml
+network_config::bond_defaults
+  bonding_opts: 'miimon=100 mode=1'
+
+
+network_config::bonds:
+  bond0:
+    interfaces:
+      - eth3
+      - eth4
+```
+
+both configure in `bond0`
 
 ```
 BONDING_OPTS=miimon=100 mode=1

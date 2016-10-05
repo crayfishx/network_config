@@ -1,3 +1,8 @@
+
+#### 0.10.0
+
+* Added `bond_defaults` option
+
 #### 0.9.1
 
 * Fixed unquoted hash key which fails to compile on Puppet 3
