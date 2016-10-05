@@ -87,7 +87,10 @@ define network_config::interface  (
     } else {
       $vlan_overrides = {}
     }
+  } else {
+    $vlan_overrides = {}
   }
+
 
   # Set the correct service to restart
   if $::network_config::restart_service {
