@@ -5,7 +5,6 @@ gem "puppet", puppetversion
 gem "puppetlabs_spec_helper"
 gem "hiera-puppet-helper"
 gem "fakefs"
-gem "rspec"
 gem "rspec-puppet"
 
 
@@ -15,3 +14,4 @@ if RUBY_VERSION < '2.0'
   gem 'json_pure', '~> 1.0'
   gem 'rubocop', '0.41'
 end
+
