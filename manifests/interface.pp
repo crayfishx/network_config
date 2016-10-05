@@ -65,11 +65,11 @@ define network_config::interface  (
 
   # Look up any bond specific overrides
   if $bonds[$name] {
-    $bond_defaults = {
+    $master_defaults = {
       'interface_type' => 'Bond',
       'bonding_master' => 'yes'
     }
-    $bond_overrides = merge($bond_defaults,delete($bonds[$name], 'interfaces'))
+    $bond_overrides = merge($master_defaults,$::network_config::bond_defaults,delete($bonds[$name], 'interfaces'))
   } else {
     $bond_overrides = {}
   }

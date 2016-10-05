@@ -121,6 +121,7 @@ class network_config (
   $interfaces = $::interfaces,
   $interface_names,
   $defaults,
+  $bond_defaults,
   $ifconfig,
   $vlans,
   $exclude_if = 'lo',
