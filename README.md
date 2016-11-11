@@ -362,7 +362,7 @@ BONDING_OPTS=miimon=100 mode=1
 | --------- | -------------------- | ------ |
 | netmask  | NETMASK | |
 | bootproto  | BOOTPROTO  | |
-| defroute  | DEFROUTE  | | 
+| defroute  | DEFROUTE  | |
 | ipv4_failure_fatal | IPV4_FAILURE_FATAL  |  |
 | ipv6init | IPV6INIT  |   |
 | ipv6_autoconf | IPV6_AUTOCONF  |   |
@@ -386,7 +386,7 @@ BONDING_OPTS=miimon=100 mode=1
 | slave | SLAVE  |   |
 | netboot  | NETBOOT  |   |
 | nm_controlled | NM_CONTROLLED  |   |
-
+| peerdns | PEERDNS |   |
 
 ## Author
 
