@@ -100,6 +100,7 @@
 #    ipv6_peerroutes
 #    zone
 #    interface_type
+#    peerdns
 #
 # New flags can be added by specifying them in network_config::ifconfig
 #
