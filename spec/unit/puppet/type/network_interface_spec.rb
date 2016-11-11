@@ -30,7 +30,7 @@ describe Puppet::Type.type(:network_interface) do
       :slave,
       :netboot ,
       :nm_controlled,
-			:peerdns,
+      :peerdns,
     ].each do |prop|
 
       it "should have a #{prop} property" do
