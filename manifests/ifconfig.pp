@@ -13,6 +13,7 @@
 define network_config::ifconfig (
   $device=$title,
   $interface_type=undef,
+  $nm_controlled=undef,
   $netmask=undef,
   $bootproto=undef,
   $defroute=undef,
@@ -63,6 +64,7 @@ define network_config::ifconfig (
     netmask            => $netmask,
     bootproto          => $bootproto,
     defroute           => $defroute,
+    nm_controlled      => $nm_controlled,
     ipv4_failure_fatal => $ipv4_failure_fatal,
     ipv6init           => $ipv6init,
     ipv6_autoconf      => $ipv6_autoconf,
