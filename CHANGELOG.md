@@ -1,5 +1,9 @@
+### 0.11.0
 
-#### 0.10.0
+* Fixed: `nm_controlled` attribute was not being managed by `network::interface`
+* Added `peerdns` attribute
+
+### 0.10.0
 
 * Added `bond_defaults` option
 
@@ -7,7 +11,7 @@
 
 * Fixed unquoted hash key which fails to compile on Puppet 3
 
-#### 0.9.0
+### 0.9.0
 
 * Purging will exclude interfaces listed in $exclude_if
 
