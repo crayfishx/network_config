@@ -112,8 +112,12 @@ Puppet::Type.type(:network_interface).provide(:default) do
           attrs[setting_to_param(field)]=val.gsub(/\"/,'')
         end
       end
-      raise Puppet::Error, "No name found in #{file}" unless attrs[:name]
-      instances << new(attrs)
+
+      if attrs[:name]
+        instances << new(attrs)
+      else
+        self.debug("No name found in #{file}, skipping this interface")
+      end
     end
     instances
   end
