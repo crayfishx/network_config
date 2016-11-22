@@ -1,3 +1,7 @@
+#### 0.11.1
+
+* Bugfix:  When prefetching interfaces, if an interface is found with no `NAME=` parameter, it is simply ignored and doesnt cause en exception.
+
 ### 0.11.0
 
 * Fixed: `nm_controlled` attribute was not being managed by `network::interface`
