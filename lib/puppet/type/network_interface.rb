@@ -34,6 +34,7 @@ newproperty(:master)
 newproperty(:slave)
 newproperty(:netboot )
 newproperty(:nm_controlled)
+newproperty(:gateway)
 
 end
 

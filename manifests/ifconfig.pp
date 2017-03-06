@@ -84,6 +84,7 @@ define network_config::ifconfig (
     bonding_master     => $bonding_master,
     master             => $master,
     slave              => $slave,
+    gateway            => $gateway,
   }
 
 
