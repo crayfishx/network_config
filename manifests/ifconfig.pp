@@ -40,6 +40,7 @@ define network_config::ifconfig (
   $slave=undef,
   $master=undef,
   $networkmanager=$::network_config::networkmanager,
+  $peerdns=undef
 ) {
 
 
@@ -84,6 +85,7 @@ define network_config::ifconfig (
     bonding_master     => $bonding_master,
     master             => $master,
     slave              => $slave,
+    peerdns            => $peerdns,
     gateway            => $gateway,
   }
 

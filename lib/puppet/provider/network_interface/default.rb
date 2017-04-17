@@ -39,6 +39,7 @@ Puppet::Type.type(:network_interface).provide(:default) do
     'NETBOOT',
     'NM_CONTROLLED',
     'NAME',
+    'PEERDNS',
     'GATEWAY'
   ]
 
