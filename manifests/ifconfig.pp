@@ -86,6 +86,7 @@ define network_config::ifconfig (
     master             => $master,
     slave              => $slave,
     peerdns            => $peerdns,
+    gateway            => $gateway,
   }
 
 

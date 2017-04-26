@@ -39,7 +39,8 @@ Puppet::Type.type(:network_interface).provide(:default) do
     'NETBOOT',
     'NM_CONTROLLED',
     'NAME',
-    'PEERDNS'
+    'PEERDNS',
+    'GATEWAY'
   ]
 
   FIELDS = FIELDS_LC
