@@ -31,6 +31,7 @@ describe Puppet::Type.type(:network_interface) do
       :netboot ,
       :nm_controlled,
       :peerdns,
+      :gateway,
     ].each do |prop|
 
       it "should have a #{prop} property" do
