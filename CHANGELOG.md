@@ -1,3 +1,7 @@
+### 0.12.0
+
+* Added gateway attribute to `network_interface` type
+
 #### 0.11.1
 
 * Bugfix:  When prefetching interfaces, if an interface is found with no `NAME=` parameter, it is simply ignored and doesnt cause en exception.
