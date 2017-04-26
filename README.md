@@ -387,6 +387,7 @@ BONDING_OPTS=miimon=100 mode=1
 | netboot  | NETBOOT  |   |
 | nm_controlled | NM_CONTROLLED  |   |
 | peerdns | PEERDNS |   |
+| gateway | GATEWAY |   |
 
 ## Author
 
