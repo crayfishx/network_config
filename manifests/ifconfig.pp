@@ -42,8 +42,14 @@ define network_config::ifconfig (
   $master=undef,
   $networkmanager=$::network_config::networkmanager,
   $peerdns=undef,
+  $routes={}
 ) {
 
+
+  if $routes {
+    create_resources("ip_route", $routes, { "interface" => $interface_name })
+    Network_interface <||> -> Ip_route <||>
+  }
 
   if $ipaddr {
     if $networkmanager {

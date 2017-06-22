@@ -51,6 +51,16 @@ describe 'network_config' do
     end
   end
 
+  context "Routing" do
+    it {
+      is_expected.to contain_ip_route('10.1.1.0/24').with(
+        :netmask => '255.255.255.0',
+        :gateway => '10.1.1.1',
+        :interface => 'ens99'
+      )
+    }
+  end
+
   context "When specifying multiple IP addresses" do
     it "should contain individual ip allocations on the same vlan" do
       [ '10.0.0.1', '10.0.0.2', '10.0.0.3' ]. each do |ip|

@@ -77,6 +77,10 @@ network_config::ifconfig:
   app:
     ipaddr: 10.9.1.10
     vlan: 200
+    routes:
+      10.1.1.0/24:
+        gateway: 10.1.1.1
+
   backup:
     ipaddr: 10.7.6.10
     vlan: 100

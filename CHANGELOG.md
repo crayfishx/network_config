@@ -1,3 +1,11 @@
+
+### 0.13.0
+
+* Internal refactoring of provider code to centralize functionality into a shared provider
+* Added `ip_route` type and provider for managing static interface routes
+* Added `routes` option to the `ifconfig` hash for configuring static routes
+
+
 ### 0.12.0
 
 * Added gateway attribute to `network_interface` type

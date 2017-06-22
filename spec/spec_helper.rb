@@ -24,7 +24,7 @@ module NetworkConfigSpecHelper
   let(:fake_files) do
     FakeFS.deactivate!
     files = {}
-    Dir.entries(sysconfig_dir).select { |s| s =~ /ifcfg-/ }.each do |file|
+    Dir.entries(sysconfig_dir).select { |s| s =~ /(ifcfg|route)-/ }.each do |file|
       files[file] = File.read(File.join(sysconfig_dir, file))
     end
     FakeFS.activate!
