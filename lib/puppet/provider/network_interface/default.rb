@@ -1,15 +1,12 @@
 require 'puppet/util/ini_file'
-Puppet::Type.type(:network_interface).provide(:default) do
+require File.join(File.dirname(__FILE__), '..', 'network_config.rb')
+Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provider::Network_config) do
 
   desc <<-EOD
     Network interface provider
   EOD
 
-  CONF_DIR = "/etc/sysconfig/network-scripts"
 
-  def self.conf_dir
-    CONF_DIR
-  end
 
   ## These fields directly translate to puppet resource params.
   FIELDS_LC  = [
@@ -132,21 +129,15 @@ Puppet::Type.type(:network_interface).provide(:default) do
   end
 
   def ifconfig
-    @ifconfig ||= Puppet::Util::IniFile.new(File.join(CONF_DIR, "ifcfg-#{resource.name}"), '=')
-    @ifconfig
+    @ifconfig ||= self.class.open_config_file('ifcfg', resource.name)
   end
 
-  def load_file_data(file)
-    self.class.load_file_data(file)
+  def routes_file
+    File.join(conf_dir, "route-#{resource.name}")
   end
 
-  def self.load_file_data(file)
-    Puppet::Util::IniFile.new(file)
-  end
-
-
-  def self.ifcfg_files
-    Dir.glob(File.join(CONF_DIR, "ifcfg-*"))
+  def has_routes?
+    File.exists?(routes_file)
   end
 
 end
