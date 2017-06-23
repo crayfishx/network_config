@@ -1,3 +1,6 @@
+#### 0.13.1
+
+* Bugfixes, fix clashes between GATEWAY= and GATEWAY0,1,2= settings when on NM controlled systems
 
 ### 0.13.0
 
