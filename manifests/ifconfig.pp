@@ -54,8 +54,10 @@ define network_config::ifconfig (
   if $ipaddr {
     if $networkmanager {
       $ip_allocations = any2array($ipaddr)
+      $int_gateway = undef
     } else {
       $ip_allocations = $ipaddr
+      $int_gateway = $gateway
     }
     Ip_allocation {
       ensure    => present,
@@ -64,6 +66,8 @@ define network_config::ifconfig (
       interface => $interface_name,
     }
     ip_allocation { $ip_allocations: }
+  } else {
+    $int_gateway = $gateway
   }
 
   network_interface { $title:
@@ -92,7 +96,7 @@ define network_config::ifconfig (
     master             => $master,
     slave              => $slave,
     peerdns            => $peerdns,
-    gateway            => $gateway,
+    gateway            => $int_gateway,
   }
 
 
