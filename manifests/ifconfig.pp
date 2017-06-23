@@ -13,6 +13,7 @@
 define network_config::ifconfig (
   $device=$title,
   $interface_type=undef,
+  $nm_controlled=undef,
   $netmask=undef,
   $bootproto=undef,
   $defroute=undef,
@@ -40,8 +41,15 @@ define network_config::ifconfig (
   $slave=undef,
   $master=undef,
   $networkmanager=$::network_config::networkmanager,
+  $peerdns=undef,
+  $routes={}
 ) {
 
+
+  if $routes {
+    create_resources("ip_route", $routes, { "interface" => $interface_name })
+    Network_interface <||> -> Ip_route <||>
+  }
 
   if $ipaddr {
     if $networkmanager {
@@ -57,13 +65,12 @@ define network_config::ifconfig (
     }
     ip_allocation { $ip_allocations: }
   }
-    
-
 
   network_interface { $title:
     netmask            => $netmask,
     bootproto          => $bootproto,
     defroute           => $defroute,
+    nm_controlled      => $nm_controlled,
     ipv4_failure_fatal => $ipv4_failure_fatal,
     ipv6init           => $ipv6init,
     ipv6_autoconf      => $ipv6_autoconf,
@@ -84,6 +91,8 @@ define network_config::ifconfig (
     bonding_master     => $bonding_master,
     master             => $master,
     slave              => $slave,
+    peerdns            => $peerdns,
+    gateway            => $gateway,
   }
 
 

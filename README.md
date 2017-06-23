@@ -15,6 +15,7 @@ This module takes a rather complex set of hiera data to manage network infrastru
 
 * A type and provider to manage network interfaces
 * A type and provider to manage IP allocations
+* A type and provider to manage statuc IP routes
 * Set of Puppet classes to manage network infrastructures from hiera data
 
 This module manages the interface configuration files in `/etc/sysconfig/network-scripts`, as well as starting and stopping interfaces.
@@ -82,6 +83,32 @@ IP addresses are considered unique, therefore changing the `interface` parameter
 ```
 Network_config::Ifconfig[ens99]/Ip_allocation[10.7.6.10]/interface: interface changed 'ens39' to 'ens99'
 ```
+
+### `ip_route`
+
+#### Example
+
+```puppet
+ip_route { '10.72.1.0/24':
+  ensure    => 'present',
+  gateway   => '10.72.1.1',
+  interface => 'ens33',
+}
+```
+
+#### Description and parameters
+
+This type takes an CIDR address as the resource title.  Supported parameters are:
+
+| Parameter       | Description                  |
+| ---------       | -----------                  |
+| `ensure`        | `present` or `absent`        |
+| `interface`     | The interface name this route is assigned to |
+| `gateway`       | The gateway for the static route |
+|
+
+There are two optional parameters which are the resources _namevars_, `netmask` and `address` - if these two attributes are not set then the CIDR range from the resource title is used to populate the netmask and address.
+
 
 ### Purging
 
@@ -362,7 +389,7 @@ BONDING_OPTS=miimon=100 mode=1
 | --------- | -------------------- | ------ |
 | netmask  | NETMASK | |
 | bootproto  | BOOTPROTO  | |
-| defroute  | DEFROUTE  | | 
+| defroute  | DEFROUTE  | |
 | ipv4_failure_fatal | IPV4_FAILURE_FATAL  |  |
 | ipv6init | IPV6INIT  |   |
 | ipv6_autoconf | IPV6_AUTOCONF  |   |
@@ -386,7 +413,8 @@ BONDING_OPTS=miimon=100 mode=1
 | slave | SLAVE  |   |
 | netboot  | NETBOOT  |   |
 | nm_controlled | NM_CONTROLLED  |   |
-
+| peerdns | PEERDNS |   |
+| gateway | GATEWAY |   |
 
 ## Author
 

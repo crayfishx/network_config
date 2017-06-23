@@ -1,5 +1,25 @@
 
-#### 0.10.0
+### 0.13.0
+
+* Internal refactoring of provider code to centralize functionality into a shared provider
+* Added `ip_route` type and provider for managing static interface routes
+* Added `routes` option to the `ifconfig` hash for configuring static routes
+
+
+### 0.12.0
+
+* Added gateway attribute to `network_interface` type
+
+#### 0.11.1
+
+* Bugfix:  When prefetching interfaces, if an interface is found with no `NAME=` parameter, it is simply ignored and doesnt cause en exception.
+
+### 0.11.0
+
+* Fixed: `nm_controlled` attribute was not being managed by `network::interface`
+* Added `peerdns` attribute
+
+### 0.10.0
 
 * Added `bond_defaults` option
 
@@ -7,7 +27,7 @@
 
 * Fixed unquoted hash key which fails to compile on Puppet 3
 
-#### 0.9.0
+### 0.9.0
 
 * Purging will exclude interfaces listed in $exclude_if
 
