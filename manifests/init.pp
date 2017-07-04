@@ -171,7 +171,8 @@ class network_config (
 
   if ( $purge_ip_allocations ) {
     purge { 'ip_allocation':
-      unless => [ [ 'name', '==', '127.0.0.1' ], [ 'interface', '==', $exclude_if ]],
+      if     => [ 'interface', '==', $parsed_ints ],
+      unless => [ 'name', '==', '127.0.0.1' ],
     }
   }
 
@@ -179,8 +180,3 @@ class network_config (
 
 
 }
-
-
-
-
-
