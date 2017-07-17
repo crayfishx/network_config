@@ -47,7 +47,13 @@ define network_config::interface  (
   # If we are a bond interface, add the slave patrameter
   #
   $bonds = $::network_config::bonds
-  $master = inline_template('<%= @bonds.select { |b,i| i["interfaces"].include?(@name) }.keys[0] %>')
+  $master = $bonds.map | $b, $v| {
+    $v['interfaces'].member($name) ? {
+      true   => $b,
+      false => undef,
+    }
+  }.flatten.delete_undef_values[0]
+
 
 
   if $master {
