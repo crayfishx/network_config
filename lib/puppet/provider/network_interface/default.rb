@@ -1,4 +1,3 @@
-require 'puppet/util/ini_file'
 require File.join(File.dirname(__FILE__), '..', 'network_config.rb')
 Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provider::Network_config) do
 
