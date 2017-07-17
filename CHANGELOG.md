@@ -1,4 +1,9 @@
 
+# 1.0.1
+
+* Use the Puppet Type API to force loading of a ini_setting provider.  Fixes an issue in Puppet 4 where `puppet/util/ini_file` cannot be loaded. 
+
+
 # 1.0.0
 
 * Puppet 4 compatibility - 1.x will not work with Puppet 4.x

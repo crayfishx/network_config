@@ -1,9 +1,15 @@
-require 'puppet/util/ini_file'
-
 class Puppet::Provider::Network_config < Puppet::Provider
 
   Puppet::Type.type(:ip_allocation)
   Puppet::Type.type(:ip_route)
+
+  # Force loading of the ini_setting type so Puppet loads the provider
+  # which requires the puppet/util/ini_file library from the right place
+  # We cannot do this using require because it's not guaranteed that the
+  # library might not be in some other directory in the modulepath
+  #
+  Puppet::Type.type(:ini_setting).new(:name => '_network_config_internal')
+
 
 
   CONF_DIR = "/etc/sysconfig/network-scripts"
