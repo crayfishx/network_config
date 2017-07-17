@@ -1,3 +1,9 @@
+
+# 1.0.0
+
+* Puppet 4 compatibility - 1.x will not work with Puppet 4.x
+* Bugfix: Removed inline template code for evaluating bonds that fails on Puppet 4
+
 #### 0.13.3
 
 * Fix: Dont purge ip_allocations in non-managed interfaces if `purge_interfaces` is set to false
