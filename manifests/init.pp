@@ -151,7 +151,13 @@ class network_config (
   # we've already loaded into the params of this class.
   #
   $int_a = split($interfaces,',')
-  $parsed_ints = delete($int_a, $exclude_if)
+  $valid_ints = delete($int_a, $exclude_if)
+
+  # Parse the valid interfaces and reject any interfaces that don't have
+  # a mapping in $interface_names.
+  #
+  $parsed_ints = $valid_ints.filter |$i| { $interface_names.has_key($i) }
+
 
   $bond_names = keys($bonds)
   network_config::interface { $bond_names: }
