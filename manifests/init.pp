@@ -46,12 +46,14 @@
 #         onboot: yes
 #         dns1: 10.0.0.4
 #         dns2: 10.0.0.2
+#         dns3: 10.0.0.5
 #         gateway: 10.0.1.1
 #         zone: restricted
 #      app:
 #        onboot: yes
 #        dns1: 10.2.1.2
-#        dns1: 10.2.1.3
+#        dns2: 10.2.1.3
+#        dns3: 10.2.1.4
 #        gateway: 10.2.1.1
 #        zone: trusted
 #        defroute: yes

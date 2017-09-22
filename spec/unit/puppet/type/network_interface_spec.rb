@@ -17,6 +17,7 @@ describe Puppet::Type.type(:network_interface) do
       :onboot,
       :dns1,
       :dns2,
+      :dns3,
       :domain,
       :hwaddr,
       :ipv6_peerdns,

@@ -12,6 +12,7 @@ network_config::defaults:
     defroute: "no"
     dns1: 10.0.0.2
     dns2: 10.0.0.3
+    dns3: 10.0.0.4
     domain: enviatics.com
     interface_type: "Ethernet"
     onboot: "yes"
@@ -20,6 +21,7 @@ network_config::defaults:
     defroute: "no"
     dns1: 10.0.6.2
     dns2: 10.0.6.3
+    dns3: 10.0.6.4
     domain: app.enviatics.com
     interface_type: "Ethernet"
     onboot: "yes"

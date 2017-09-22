@@ -198,6 +198,7 @@ network_config::defaults:
     defroute: "no"
     dns1: 10.0.8.2
     dns2: 10.0.8.3
+    dns3: 10.0.8.4
     domain: enviatics.com
     onboot: "yes"
   backup:
@@ -205,6 +206,7 @@ network_config::defaults:
     defroute: "no"
     dns1: 10.0.0.2
     dns2: 10.0.0.3
+    dns3: 10.0.0.4
     domain: enviatics.com
     interface_type: "Ethernet"
     onboot: "yes"
@@ -213,6 +215,7 @@ network_config::defaults:
     defroute: "no"
     dns1: 10.0.6.2
     dns2: 10.0.6.3
+    dns3: 10.0.6.4
     domain: app.enviatics.com
     onboot: "yes"
 ```
@@ -399,6 +402,7 @@ BONDING_OPTS=miimon=100 mode=1
 | onboot | ONBOOT   |   |
 | dns1 |  DNS1  | |
 | dns2 |  DNS2  | |
+| dns3 |  DNS3  | |
 | domain | DOMAIN  |  |
 | hwaddr | HWADDR  |   |
 | ipv6_peerdns | IPV6_PEERDNS  |   |
