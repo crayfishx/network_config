@@ -21,6 +21,7 @@ Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provi
     'ONBOOT',
     'DNS1',
     'DNS2',
+    'DNS3',
     'DOMAIN',
     'HWADDR',
     'IPV6_PEERDNS',

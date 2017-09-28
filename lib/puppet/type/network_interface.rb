@@ -21,6 +21,7 @@ Puppet::Type.newtype(:network_interface) do
   newproperty(:onboot)
   newproperty(:dns1)
   newproperty(:dns2)
+  newproperty(:dns3)
   newproperty(:domain)
   newproperty(:hwaddr)
   newproperty(:ipv6_peerdns)
