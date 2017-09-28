@@ -1,4 +1,8 @@
 
+# 1.1.0
+
+* Added `dns3` option
+
 # 1.0.1
 
 * Use the Puppet Type API to force loading of a ini_setting provider.  Fixes an issue in Puppet 4 where `puppet/util/ini_file` cannot be loaded. 
