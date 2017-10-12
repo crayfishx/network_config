@@ -11,46 +11,50 @@
 #
 # 
 define network_config::ifconfig (
-  $device=$title,
-  $interface_type=undef,
-  $nm_controlled=undef,
-  $netmask=undef,
-  $bootproto=undef,
-  $defroute=undef,
-  $ipv4_failure_fatal=undef,
-  $ipv6init=undef,
-  $ipv6_autoconf=undef,
-  $ipv6_defroute=undef,
-  $ipv6_failure_fatal=undef,
-  $uuid=undef,
-  $onboot=undef,
-  $dns1=undef,
-  $dns2=undef,
-  $dns3=undef,
-  $domain=undef,
-  $hwaddr=undef,
-  $ipaddr=undef,
-  $prefix=undef,
-  $gateway=undef,
-  $ipv6_peerdns=undef,
-  $ipv6_peerroutes=undef,
-  $zone=undef,
-  $vlan=undef,
-  $interface_name=$title,
-  $bonding_opts=undef,
-  $bonding_master=undef,
-  $slave=undef,
-  $master=undef,
-  $networkmanager=$::network_config::networkmanager,
-  $peerdns=undef,
-  $routes={}
+  String           $device = $title,
+  Optional[String] $interface_type=undef,
+  Boolean          $nm_controlled=true,
+  Optional[String] $netmask=undef,
+  Optional[String] $bootproto=undef,
+  Optional[String] $defroute=undef,
+  Optional[String] $ipv4_failure_fatal=undef,
+  Optional[String] $ipv6init=undef,
+  Optional[String] $ipv6_autoconf=undef,
+  Optional[String] $ipv6_defroute=undef,
+  Optional[String] $ipv6_failure_fatal=undef,
+  Optional[String] $uuid=undef,
+  Optional[String] $onboot=undef,
+  Optional[String] $dns1=undef,
+  Optional[String] $dns2=undef,
+  Optional[String] $dns3=undef,
+  Optional[String] $domain=undef,
+  Optional[String] $hwaddr=undef,
+  Variant[String, Array, Undef] $ipaddr=undef,
+  Optional[Integer] $prefix=undef,
+  Optional[String] $gateway=undef,
+  Optional[String] $ipv6_peerdns=undef,
+  Optional[String] $ipv6_peerroutes=undef,
+  Optional[String] $zone=undef,
+  Optional[String] $vlan=undef,
+  String           $interface_name=$title,
+  Optional[String] $bonding_opts=undef,
+  Optional[String] $bonding_master=undef,
+  Optional[String] $slave=undef,
+  Optional[String] $master=undef,
+  Boolean          $networkmanager=$::network_config::networkmanager,
+  Optional[String] $peerdns=undef,
+  Hash             $routes={}
 ) {
 
 
-  if $routes {
-    create_resources("ip_route", $routes, { "interface" => $interface_name })
-    Network_interface <||> -> Ip_route <||>
+
+  $routes.each | String $dest, Hash[Enum['gateway','netmask','address'], String] $rparams | {
+
+    ip_route { $dest:
+      * => $rparams + { 'interface' => $interface_name }
+    }
   }
+
 
   if $ipaddr {
     if $networkmanager {
@@ -60,12 +64,12 @@ define network_config::ifconfig (
       $ip_allocations = $ipaddr
       $int_gateway = $gateway
     }
-    Ip_allocation {
-      ensure    => present,
-      prefix    => $prefix,
-      gateway   => $gateway,
-      interface => $interface_name,
-    }
+      Ip_allocation {
+        ensure    => present,
+        prefix    => $prefix,
+        gateway   => $gateway,
+        interface => $interface_name,
+      }
     ip_allocation { $ip_allocations: }
   } else {
     $int_gateway = $gateway
@@ -84,8 +88,8 @@ define network_config::ifconfig (
     uuid               => $uuid,
     onboot             => $onboot,
     dns1               => $dns1,
-    dns2	        => $dns2,
-    dns3	        => $dns3,
+    dns2	             => $dns2,
+    dns3	             => $dns3,
     domain             => $domain,
     hwaddr             => $hwaddr,
     ipv6_peerdns       => $ipv6_peerdns,
@@ -100,8 +104,5 @@ define network_config::ifconfig (
     peerdns            => $peerdns,
     gateway            => $int_gateway,
   }
-
-
-
 }
 

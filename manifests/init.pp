@@ -121,19 +121,19 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class network_config (
-  $interfaces = $::interfaces,
-  $interface_names,
-  $defaults,
-  $bond_defaults = {},
-  $ifconfig,
-  $vlans,
-  $exclude_if = 'lo',
-  $networkmanager = $::network_config::params::networkmanager,
-  $restart_service = true,
-  $restart_interface = false,
-  $purge_interfaces = false,
-  $purge_ip_allocations = false,
-  $bonds = {}
+  Array[String]        $interfaces = $facts['networking']['interfaces'].keys,
+  Hash[String, String] $interface_names,
+  Hash[String, Hash]   $defaults,
+  Hash                 $bond_defaults = {},
+  Hash                 $ifconfig,
+  Hash                 $vlans,
+  Array                $exclude_if = [ 'lo' ],
+  Boolean              $networkmanager = $::network_config::params::networkmanager,
+  Boolean              $restart_service = true,
+  Boolean              $restart_interface = false,
+  Boolean              $purge_interfaces = false,
+  Boolean              $purge_ip_allocations = false,
+  Hash                 $bonds = {}
 ) inherits network_config::params {
 
   # In this base class we pull in the data from hiera, which
@@ -152,8 +152,7 @@ class network_config (
   # type to instantiate the setup for that interface using the data
   # we've already loaded into the params of this class.
   #
-  $int_a = split($interfaces,',')
-  $valid_ints = delete($int_a, $exclude_if)
+  $valid_ints = delete($interfaces, $exclude_if)
 
   # Parse the valid interfaces and reject any interfaces that don't have
   # a mapping in $interface_names.
@@ -185,6 +184,7 @@ class network_config (
   }
 
   Purge<| title == 'ip_allocation' |> -> Purge<| title == 'network_interface' |>
+  Network_interface <||> -> Ip_route <||>
 
 
 }

@@ -1,5 +1,5 @@
 network_config::restart_service: false
-network_config::interfaces: ens39,ens99,ens51,ens52,ens80
+network_config::interfaces: [ ens39,ens99,ens51,ens52,ens80 ]
 network_config::exclude_if:
   - lo
 ####### Global level (common) settings
@@ -62,13 +62,13 @@ network_config::defaults:
 
     
 network_config::vlans:
-  100:
+  '100':
     prefix: 24
     gateway: 10.7.6.3
-  200:
+  '200':
     prefix: 23
     gateway: 10.9.1.2
-  300:
+  '300':
     prefix: 24
     gateway: 10.1.1.1
 
@@ -79,20 +79,20 @@ network_config::vlans:
 network_config::ifconfig:
   app:
     ipaddr: 10.9.1.10
-    vlan: 200
+    vlan: '200'
     routes:
       10.1.1.0/24:
         gateway: 10.1.1.1
 
   backup:
     ipaddr: 10.7.6.10
-    vlan: 100
+    vlan: '100'
   management:
     ipaddr: 10.1.1.1
-    vlan: 300
+    vlan: '300'
   multi:
     ipaddr:
       - 10.0.0.1
       - 10.0.0.2
       - 10.0.0.3
-    vlan: 100
+    vlan: '100'

@@ -119,15 +119,12 @@ define network_config::interface  (
                           $int_params)
 
 
-  # Build the resource hash, consisting of the interface id and parameters
-  $resource = { "${title}" => $params_merged }
-
-
-  # Pass the resource and defaults hash to create_resources to declare
-  # a network_config::ifconfig resource to manage the individual parts
+  # Declare a network_config::ifconfig resource to manage the individual parts
   # of the sysconfig file.
   if ( $int_type ) {
-    create_resources('network_config::ifconfig', $resource , $int_defaults)
+    network_config::ifconfig { $title:
+      * => $int_defaults + $params_merged,
+    }
   }
 
 }
