@@ -35,7 +35,7 @@ define network_config::ifconfig (
   Optional[String] $ipv6_peerdns=undef,
   Optional[String] $ipv6_peerroutes=undef,
   Optional[String] $zone=undef,
-  Optional[String] $vlan=undef,
+  Optional[Integer] $vlan=undef,
   String           $interface_name=$title,
   Optional[String] $bonding_opts=undef,
   Optional[String] $bonding_master=undef,
@@ -49,7 +49,6 @@ define network_config::ifconfig (
 
 
   $routes.each | String $dest, Hash[Enum['gateway','netmask','address'], String] $rparams | {
-
     ip_route { $dest:
       * => $rparams + { 'interface' => $interface_name }
     }

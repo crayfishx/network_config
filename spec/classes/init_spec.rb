@@ -17,7 +17,7 @@ describe 'network_config' do
       :domain         => "enviatics.com",
       :interface_type => "Ethernet",
       :onboot         => "yes",
-      :vlan           => "100",
+      :vlan           => 100,
       :prefix         => "24",
       :ipaddr         => "10.7.6.10"
     },
@@ -30,7 +30,7 @@ describe 'network_config' do
       :domain         => "app.enviatics.com",
       :interface_type => "Ethernet",
       :onboot         => "yes",
-      :vlan           => "200",
+      :vlan           => 200,
       :prefix         => "23",
       :ipaddr         => "10.9.1.10"
     }

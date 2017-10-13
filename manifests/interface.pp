@@ -89,6 +89,9 @@ define network_config::interface  (
   # Look up parameters from the vlan if one has been defined for this interface
   if $int_params {
     if $int_params['vlan'] {
+      unless $int_params['vlan'] =~ Integer {
+        fail("VLAN ${int_params['vlan']} must be an Integer")
+      }
       $vlan_overrides = $::network_config::vlans[$int_params['vlan']]
     } else {
       $vlan_overrides = {}
