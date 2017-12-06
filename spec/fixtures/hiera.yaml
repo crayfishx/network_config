@@ -5,5 +5,5 @@
 :yaml:
   :datadir: ./spec/fixtures/data
 
-:hierararchy:
+:hierarchy:
   - common
