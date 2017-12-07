@@ -47,10 +47,16 @@ define network_config::ifconfig (
 ) {
 
 
-
   $routes.each | String $dest, Hash[Enum['gateway','netmask','address'], String] $rparams | {
+
+    $route_defaults = {
+      'interface' => $interface_name,
+      'gateway'   => $gateway,
+    }
+
     ip_route { $dest:
-      * => $rparams + { 'interface' => $interface_name }
+      *       => $route_defaults + $rparams,
+      require => Network_interface[$interface_name],
     }
   }
 

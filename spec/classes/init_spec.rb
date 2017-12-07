@@ -60,6 +60,11 @@ describe 'network_config' do
         :gateway => '10.1.1.1',
         :interface => 'ens99'
       )
+      is_expected.to contain_ip_route('10.1.2.0/24').with(
+        :netmask => '255.255.255.0',
+        :gateway => '10.7.6.3',
+        :interface => 'ens39'
+      )
     }
   end
 
