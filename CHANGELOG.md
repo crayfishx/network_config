@@ -1,9 +1,12 @@
+## 1.2.0
+
+* Use interfaces gateway as the default gateway for associated ip routes (https://github.com/crayfishx/network_config/pull/32)
 
 # 1.1.0
 
 * Added `dns3` option
 
-# 1.0.1
+### 1.0.1
 
 * Use the Puppet Type API to force loading of a ini_setting provider.  Fixes an issue in Puppet 4 where `puppet/util/ini_file` cannot be loaded. 
 

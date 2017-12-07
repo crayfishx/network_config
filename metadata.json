@@ -1,6 +1,6 @@
 {
   "name": "crayfishx/network_config",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "crayfishx",
   "tags": [ "network manager", "network", "ip", "interface", "ifconfig" ],
   "summary": "Manage network configuration for RedHat 7",
