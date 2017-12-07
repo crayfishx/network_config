@@ -87,6 +87,8 @@ network_config::ifconfig:
   backup:
     ipaddr: 10.7.6.10
     vlan: 100
+    routes:
+      10.1.2.0/24: {}
   management:
     ipaddr: 10.1.1.1
     vlan: 300

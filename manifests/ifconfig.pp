@@ -48,7 +48,11 @@ define network_config::ifconfig (
 
 
   if $routes {
-    create_resources("ip_route", $routes, { "interface" => $interface_name })
+    $route_defaults = {
+      'interface' => $interface_name,
+      'gateway'   => $gateway,
+    }
+    create_resources('ip_route', $routes, $route_defaults)
     Network_interface <||> -> Ip_route <||>
   }
 
