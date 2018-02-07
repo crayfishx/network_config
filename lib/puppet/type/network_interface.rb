@@ -9,9 +9,19 @@ Puppet::Type.newtype(:network_interface) do
 
   newparam(:target)
 
-  newproperty(:netmask )
-  newproperty(:bootproto )
-  newproperty(:defroute )
+  ensure_quoted = Proc.new do
+    munge do |value|
+      if value.include?(' ') && !value.match(/\A\".*\"\z/)
+        "\"#{value}\""
+      else
+        value
+      end
+    end
+  end
+
+  newproperty(:netmask)
+  newproperty(:bootproto)
+  newproperty(:defroute)
   newproperty(:ipv4_failure_fatal)
   newproperty(:ipv6init)
   newproperty(:ipv6_autoconf)
@@ -22,18 +32,18 @@ Puppet::Type.newtype(:network_interface) do
   newproperty(:dns1)
   newproperty(:dns2)
   newproperty(:dns3)
-  newproperty(:domain)
+  newproperty(:domain, &ensure_quoted)
   newproperty(:hwaddr)
   newproperty(:ipv6_peerdns)
   newproperty(:ipv6_peerroutes)
   newproperty(:zone)
   newproperty(:type)
   newproperty(:device)
-  newproperty(:bonding_opts)
+  newproperty(:bonding_opts, &ensure_quoted)
   newproperty(:bonding_master)
   newproperty(:master)
   newproperty(:slave)
-  newproperty(:netboot )
+  newproperty(:netboot)
   newproperty(:nm_controlled)
   newproperty(:peerdns)
   newproperty(:gateway)
