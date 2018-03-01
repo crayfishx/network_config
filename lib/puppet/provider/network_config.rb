@@ -28,7 +28,8 @@ class Puppet::Provider::Network_config < Puppet::Provider
   end
 
   def self.ifcfg_files
-    Dir.glob(File.join(CONF_DIR, "ifcfg-*"))
+    files = Dir.glob(File.join(CONF_DIR, "ifcfg-*"))
+    files.reject{|file| file.end_with?('.bak')}
   end
 
   def self.conf_dir
@@ -42,7 +43,7 @@ class Puppet::Provider::Network_config < Puppet::Provider
       File.open(file, "w") {}
     end
     Puppet::Util::IniFile.new(file, '=')
-  end 
+  end
 
   def conf_dir
     @conf_dir ||= self.class.conf_dir
@@ -126,16 +127,16 @@ class Puppet::Provider::Network_config < Puppet::Provider
 
   # get the current position of the configuration set.  We can't rely on
   # @property_hash for this and we have to poll the file for it again as
-  # we don't know if the positions have been resorted by flush since we 
+  # we don't know if the positions have been resorted by flush since we
   # did a prefetch, however, if it exists in @property_flush then we are
   # in a create so this should be used.
   #
   def cur_position(element=get_cur_element)
     return @property_flush[:position] if @property_flush[:position]
-    ifconfig.get_settings('').select {|i,v| 
+    ifconfig.get_settings('').select {|i,v|
       i =~ /#{index_key}/ && v == element }.keys[0].gsub(/[^\d]*/,'')
   end
-    
+
   # positions
   # This method returns an array of all the numerical positions for all
   # sets of configurations.  Eg: if we have IPADDR, IPADDR1, IPADDR2, IPADDR3
@@ -178,7 +179,7 @@ class Puppet::Provider::Network_config < Puppet::Provider
   end
 
 
-    
+
   # This method takes an inifile object as an argument and an optional argument
   # of a position (if ommited we assume there is no numerical position, eg IPADDR)
   # we return a hash of the values that match
@@ -213,7 +214,7 @@ class Puppet::Provider::Network_config < Puppet::Provider
   def self.load_file_data(file)
     Puppet::Util::IniFile.new(file, '=')
   end
- 
+
   # Return provider instances of all configured interfaces
   #
   def self.interfaces
