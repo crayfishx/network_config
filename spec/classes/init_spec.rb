@@ -34,7 +34,7 @@ describe 'network_config' do
       :prefix         => "23",
       :ipaddr         => "10.9.1.10"
     }
-  } 
+  }
 
   context 'with defaults for all parameters' do
     it { should contain_class('network_config') }
@@ -152,6 +152,27 @@ describe 'network_config' do
       is_expected.not_to contain_ip_allocation('10.1.1.1').that_notifies("Service[network]")
     end
 
+  end
+
+
+  context 'When specifying teaming' do
+    it 'should contain team_config hash converted to a json string' do
+      str = '{"runner":{"name":"lacp","active":true,"fast_rate":true},"link_watch":{"name":"ethtool"}}'
+      is_expected.to contain_network_interface('team0').with_team_config(str)
+    end
+    it 'should set the correct devicetype' do
+      is_expected.to contain_network_interface('team0').with_devicetype('Team')
+      is_expected.to contain_network_interface('ens61').with_devicetype('TeamPort')
+      is_expected.to contain_network_interface('ens62').with_devicetype('TeamPort')
+    end
+    it 'should set the team master' do
+      is_expected.to contain_network_interface('ens61').with_team_master('team0')
+      is_expected.to contain_network_interface('ens62').with_team_master('team0')
+    end
+    it 'should set the interface specific team_port_config settings' do
+      is_expected.to     contain_network_interface('ens61').with_team_port_config('{"prio":100}')
+      is_expected.to_not contain_network_interface('ens62').with_team_port_config('{"prio":100}')
+    end
   end
 
 end
