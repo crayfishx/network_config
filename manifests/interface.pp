@@ -12,7 +12,7 @@
 #
 # Craig Dunn <craig@craigdunn.org>
 #
-# 
+#
 define network_config::interface  (
 ) {
 
@@ -77,11 +77,11 @@ define network_config::interface  (
     $team_port_config = {
       'devicetype'  => 'TeamPort',
       'team_master' => $team_master,
-    }.merge($teams[$team_master]['interfaces'][$name]) 
+    }.merge($teams[$team_master]['interfaces'][$name])
   } else {
     $team_port_config = {}
   }
-    
+
   # Look up the default values for this interface type
   $int_defaults = $::network_config::defaults[$int_type]
 
@@ -91,9 +91,9 @@ define network_config::interface  (
       'interface_type' => 'Bond',
       'bonding_master' => 'yes',
     }
-    $bond_overrides = merge( $master_defaults,
-                             $::network_config::bond_defaults,
-                             delete($bonds[$name], 'interfaces'))
+    $bond_overrides = merge($master_defaults,
+                            $::network_config::bond_defaults,
+                            delete($bonds[$name], 'interfaces'))
   } else {
     $bond_overrides = {}
   }
@@ -103,9 +103,9 @@ define network_config::interface  (
     $team_master_defaults = {
       'devicetype' => 'Team',
     }
-    $team_overrides = merge( $team_master_defaults,
-                             $::network_config::team_defaults,
-                             delete($teams[$name], 'interfaces'))
+    $team_overrides = merge($team_master_defaults,
+                            $::network_config::team_defaults,
+                            delete($teams[$name], 'interfaces'))
   } else {
     $team_overrides = {}
   }
@@ -137,7 +137,7 @@ define network_config::interface  (
   }
 
 
-  # Here we take all of the various configurations and merge them in the 
+  # Here we take all of the various configurations and merge them in the
   # right order (right wins).  Starting with interface defaults and finally
   # ifconfig params.
   $params_merged = merge( $notify_resource,

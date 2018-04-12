@@ -9,7 +9,7 @@
 #
 # Craig Dunn <craig@craigdunn.org>
 #
-# 
+#
 define network_config::ifconfig (
   $device=$title,
   $interface_type=undef,
@@ -104,8 +104,8 @@ define network_config::ifconfig (
     uuid               => $uuid,
     onboot             => $onboot,
     dns1               => $dns1,
-    dns2	             => $dns2,
-    dns3	             => $dns3,
+    dns2               => $dns2,
+    dns3               => $dns3,
     domain             => $domain,
     hwaddr             => $hwaddr,
     ipv6_peerdns       => $ipv6_peerdns,
