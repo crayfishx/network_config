@@ -111,7 +111,7 @@ Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provi
       }
       FIELDS.each do |field|
         if val = data.get_value('',field)
-          val = val.gsub(/\"/,'') unless val.include?(' ')
+          val = val.gsub(/\A(\")|(\")\z/,'') unless val.include?(' ')
           attrs[setting_to_param(field)]=val
         end
       end
