@@ -1,6 +1,5 @@
 Puppet::Type.newtype(:network_interface) do
 
-
   ensurable
 
   newparam(:name, :namevar => true) do
@@ -9,20 +8,23 @@ Puppet::Type.newtype(:network_interface) do
 
   newparam(:target)
 
-  ensure_quoted = Proc.new do
+  # This will always put '' around the value
+  ensure_singlequoted = Proc.new do
     munge do |value|
-      if value.include?(' ') && !value.match(/\A\".*\"\z/)
-        "\"#{value}\""
+      unless value.match(/\A\'.*\'\z/)
+        "\'#{value}\'"
       else
         value
       end
     end
   end
 
-  ensure_singlequoted = Proc.new do
+  # This will only put "" around the value if
+  # required (if the value contains spaces)
+  ensure_doublequoted_if_required = Proc.new do
     munge do |value|
-      unless value.match(/\A\'.*\'\z/)
-        "\'#{value}\'"
+      if value.include?(' ') && !value.match(/\A\".*\"\z/)
+        "\"#{value}\""
       else
         value
       end
@@ -42,14 +44,14 @@ Puppet::Type.newtype(:network_interface) do
   newproperty(:dns1)
   newproperty(:dns2)
   newproperty(:dns3)
-  newproperty(:domain, &ensure_quoted)
+  newproperty(:domain, &ensure_doublequoted_if_required)
   newproperty(:hwaddr)
   newproperty(:ipv6_peerdns)
   newproperty(:ipv6_peerroutes)
   newproperty(:zone)
   newproperty(:type)
   newproperty(:device)
-  newproperty(:bonding_opts, &ensure_quoted)
+  newproperty(:bonding_opts, &ensure_doublequoted_if_required)
   newproperty(:bonding_master)
   newproperty(:master)
   newproperty(:slave)
