@@ -125,6 +125,7 @@ class network_config (
   $interface_names,
   $defaults,
   $bond_defaults = {},
+  $team_defaults = {},
   $ifconfig,
   $vlans,
   $exclude_if = 'lo',
@@ -133,7 +134,8 @@ class network_config (
   $restart_interface = false,
   $purge_interfaces = false,
   $purge_ip_allocations = false,
-  $bonds = {}
+  $bonds = {},
+  $teams = {},
 ) inherits network_config::params {
 
   # In this base class we pull in the data from hiera, which
@@ -162,7 +164,9 @@ class network_config (
 
 
   $bond_names = keys($bonds)
+  $team_names = keys($teams)
   network_config::interface { $bond_names: }
+  network_config::interface { $team_names: }
   network_config::interface { $parsed_ints: }
 
   # If we have enabled purging, purge interfaces... we never purge

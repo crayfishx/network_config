@@ -37,7 +37,11 @@ Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provi
     'NM_CONTROLLED',
     'NAME',
     'PEERDNS',
-    'GATEWAY'
+    'GATEWAY',
+    'DEVICETYPE',
+    'TEAM_MASTER',
+    'TEAM_PORT_CONFIG',
+    'TEAM_CONFIG',
   ]
 
   FIELDS = FIELDS_LC

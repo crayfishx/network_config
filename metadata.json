@@ -9,7 +9,7 @@
   "project_page": "https://github.com/crayfishx/network_config",
   "issues_url": "https://github.com/crayfishx/network_config/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0 < 5.0.0"},
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.20.0 < 5.0.0"},
     {"name":"puppetlabs-inifile","version_requirement":">= 1.0.0 < 2.0.0"},
     {"name":"crayfishx-purge","version_requirement":">= 1.1.0 < 2.0.0"}
   ],

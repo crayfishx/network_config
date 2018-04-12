@@ -54,8 +54,6 @@ define network_config::interface  (
     }
   }.flatten.delete_undef_values[0]
 
-
-
   if $master {
     $slave_config = {
       'slave'  => 'yes',
@@ -65,7 +63,25 @@ define network_config::interface  (
     $slave_config = {}
   }
 
+  # if we are a team interface, add the devicetype and team_master parameter
+  #
+  $teams = $::network_config::teams
+  $team_master = $teams.map |$team_name, $team_conf| {
+    $team_conf['interfaces'].has_key($name) ? {
+      true  => $team_name,
+      false => undef,
+    }
+  }.flatten.delete_undef_values[0]
 
+  if $team_master {
+    $team_port_config = {
+      'devicetype'  => 'TeamPort',
+      'team_master' => $team_master,
+    }.merge($teams[$team_master]['interfaces'][$name]) 
+  } else {
+    $team_port_config = {}
+  }
+    
   # Look up the default values for this interface type
   $int_defaults = $::network_config::defaults[$int_type]
 
@@ -73,13 +89,26 @@ define network_config::interface  (
   if $bonds[$name] {
     $master_defaults = {
       'interface_type' => 'Bond',
-      'bonding_master' => 'yes'
+      'bonding_master' => 'yes',
     }
-    $bond_overrides = merge($master_defaults,$::network_config::bond_defaults,delete($bonds[$name], 'interfaces'))
+    $bond_overrides = merge( $master_defaults,
+                             $::network_config::bond_defaults,
+                             delete($bonds[$name], 'interfaces'))
   } else {
     $bond_overrides = {}
   }
 
+  # Look up any team specific overrides
+  if $teams[$name] {
+    $team_master_defaults = {
+      'devicetype' => 'Team',
+    }
+    $team_overrides = merge( $team_master_defaults,
+                             $::network_config::team_defaults,
+                             delete($teams[$name], 'interfaces'))
+  } else {
+    $team_overrides = {}
+  }
 
   # Look up the paramters for this host from network_config::ifconfig (ipaddress..etc)
   $int_params = $::network_config::ifconfig[$int_type]
@@ -115,9 +144,10 @@ define network_config::interface  (
                           $int_defaults,
                           $bond_overrides,
                           $slave_config,
+                          $team_overrides,
+                          $team_port_config,
                           $vlan_overrides,
                           $int_params)
-
 
   # Build the resource hash, consisting of the interface id and parameters
   $resource = { "${title}" => $params_merged }

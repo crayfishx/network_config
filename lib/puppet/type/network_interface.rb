@@ -19,6 +19,16 @@ Puppet::Type.newtype(:network_interface) do
     end
   end
 
+  ensure_singlequoted = Proc.new do
+    munge do |value|
+      unless value.match(/\A\'.*\'\z/)
+        "\'#{value}\'"
+      else
+        value
+      end
+    end
+  end
+
   newproperty(:netmask)
   newproperty(:bootproto)
   newproperty(:defroute)
@@ -47,7 +57,9 @@ Puppet::Type.newtype(:network_interface) do
   newproperty(:nm_controlled)
   newproperty(:peerdns)
   newproperty(:gateway)
+  newproperty(:devicetype)
+  newproperty(:team_master)
+  newproperty(:team_port_config, &ensure_singlequoted)
+  newproperty(:team_config, &ensure_singlequoted)
 
 end
-
-
