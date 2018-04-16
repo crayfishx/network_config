@@ -1,8 +1,8 @@
 # == Class: network_config
 #
 # This is a bespoke network configuration module for managing sysconfig
-# interface settings on RHEL.  
-# 
+# interface settings on RHEL.
+#
 # We don't want to manage the entire file with a template (like example42/network)
 # as there are some pre-filled values such as UUID and HWADDR that we don't want
 # to manage but we still want the values left in the file, so using a template
@@ -19,7 +19,7 @@
 # configuration to be as simple, readable and uncomplicated as possible for
 # the user.
 #
-# 
+#
 # === Parameters
 #
 #
@@ -121,19 +121,21 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class network_config (
-  $interfaces = $::interfaces,
   $interface_names,
   $defaults,
-  $bond_defaults = {},
   $ifconfig,
   $vlans,
+  $interfaces = $::interfaces,
+  $bond_defaults = {},
+  $team_defaults = {},
   $exclude_if = 'lo',
   $networkmanager = $::network_config::params::networkmanager,
   $restart_service = true,
   $restart_interface = false,
   $purge_interfaces = false,
   $purge_ip_allocations = false,
-  $bonds = {}
+  $bonds = {},
+  $teams = {},
 ) inherits network_config::params {
 
   # In this base class we pull in the data from hiera, which
@@ -162,7 +164,9 @@ class network_config (
 
 
   $bond_names = keys($bonds)
+  $team_names = keys($teams)
   network_config::interface { $bond_names: }
+  network_config::interface { $team_names: }
   network_config::interface { $parsed_ints: }
 
   # If we have enabled purging, purge interfaces... we never purge

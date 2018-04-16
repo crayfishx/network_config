@@ -1,5 +1,5 @@
 network_config::restart_service: false
-network_config::interfaces: ens39,ens99,ens51,ens52,ens80
+network_config::interfaces: ens39,ens99,ens51,ens52,ens80,ens61,ens62
 network_config::exclude_if:
   - lo
 ####### Global level (common) settings
@@ -12,6 +12,9 @@ network_config::interface_names:
   ens52: bond_interface
   bond0: management
   ens80: multi
+  ens61: team_interface
+  ens62: team_interface
+  team0: app2
 
 network_config::bonds:
   bond0:
@@ -20,6 +23,20 @@ network_config::bonds:
       - ens51
       - ens52
 
+network_config::teams:
+  team0:
+    team_config:
+      runner:
+        name: lacp
+        active: true
+        fast_rate: true
+      link_watch:
+        name: ethtool
+    interfaces:
+      ens61:
+        team_port_config:
+          prio: 100
+      ens62: {}
 
 network_config::defaults:
   management:
@@ -49,7 +66,20 @@ network_config::defaults:
     domain: app.enviatics.com
     interface_type: "Ethernet"
     onboot: "yes"
+  app2:
+    bootproto: "none"
+    defroute: "no"
+    dns1: 10.0.6.2
+    dns2: 10.0.6.3
+    dns3: 10.0.6.4
+    domain: app.enviatics.com
+    interface_type: "Ethernet"
+    onboot: "yes"
   bond_interface:
+    bootproto: "none"
+    defroute: "no"
+    onboot: "yes"
+  team_interface:
     bootproto: "none"
     defroute: "no"
     onboot: "yes"
@@ -60,7 +90,7 @@ network_config::defaults:
     defroute: "no"
     onboot: "yes"
 
-    
+
 network_config::vlans:
   100:
     prefix: 24
@@ -73,7 +103,7 @@ network_config::vlans:
     gateway: 10.1.1.1
 
 
-  
+
 ###### Host level settings
 #
 network_config::ifconfig:
@@ -83,6 +113,9 @@ network_config::ifconfig:
     routes:
       10.1.1.0/24:
         gateway: 10.1.1.1
+  app2:
+    ipaddr: 10.9.1.42
+    vlan: 200
 
   backup:
     ipaddr: 10.7.6.10

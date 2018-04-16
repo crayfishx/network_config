@@ -9,7 +9,7 @@
 #
 # Craig Dunn <craig@craigdunn.org>
 #
-# 
+#
 define network_config::ifconfig (
   $device=$title,
   $interface_type=undef,
@@ -43,7 +43,11 @@ define network_config::ifconfig (
   $master=undef,
   $networkmanager=$::network_config::networkmanager,
   $peerdns=undef,
-  $routes={}
+  $routes={},
+  $devicetype=undef,
+  $team_master=undef,
+  $team_port_config=undef,
+  $team_config=undef,
 ) {
 
 
@@ -75,6 +79,18 @@ define network_config::ifconfig (
     $int_gateway = $gateway
   }
 
+  $team_port_config_string = $team_port_config ? {
+    String  => $team_port_config,
+    undef   => undef,
+    default => to_json($team_port_config),
+  }
+
+  $team_config_string = $team_config ? {
+    String  => $team_config,
+    undef   => undef,
+    default => to_json($team_config),
+  }
+
   network_interface { $title:
     netmask            => $netmask,
     bootproto          => $bootproto,
@@ -88,8 +104,8 @@ define network_config::ifconfig (
     uuid               => $uuid,
     onboot             => $onboot,
     dns1               => $dns1,
-    dns2	        => $dns2,
-    dns3	        => $dns3,
+    dns2               => $dns2,
+    dns3               => $dns3,
     domain             => $domain,
     hwaddr             => $hwaddr,
     ipv6_peerdns       => $ipv6_peerdns,
@@ -103,9 +119,11 @@ define network_config::ifconfig (
     slave              => $slave,
     peerdns            => $peerdns,
     gateway            => $int_gateway,
+    devicetype         => $devicetype,
+    team_master        => $team_master,
+    team_port_config   => $team_port_config_string,
+    team_config        => $team_config_string,
   }
-
-
 
 }
 

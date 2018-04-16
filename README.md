@@ -386,6 +386,118 @@ BONDING_OPTS=miimon=100 mode=1
 ```
 
 
+### Teaming
+
+Teaming can be configured very similar to bonding. First we need to define a network interface type with the defauts. Eg:
+
+```yaml
+network_config::defaults
+  ...
+  team_interface:    
+    bootproto: "none"
+    defroute: "no"
+    onboot: "yes"
+```
+
+Next we assign two interfaces that we want to be the be in the team. We also define a new interface that will be our `team0` and we can give it an interface type like we did earlier, eg:
+
+```yaml
+network_config::interface_names:
+  ...
+  eth3: team_interface
+  eth4: team_interface
+  team0: application
+```
+
+This will configure `team0` as an application interface inheriting all of our defaults from that type.  We also have `eth3` and `eth3` configured with general teaming defaults.
+
+The final step is to define which real interfaces are members of which team interfaces, we do this with the `teams` parameter.
+
+```yaml
+network_config::teams:
+  team0:
+    interfaces:
+      eth3: {}
+      eth4: {}
+```
+
+The above will make sure that `eth3` and `eth4` interfaces are configured as members of `team0` with
+
+```
+NAME=eth3
+TEAM_MASTER=team0
+DEVICETYPE=TeamPort
+```
+
+... aswell as all the inherited configuration from the `team_interface` type.
+
+The `teams` hash can also contain other team specific configuration to apply to the team interface (`team0` in our example). Eg:
+
+```yaml
+network_config::teams:
+  team0:
+    team_config:
+      runner:
+        name: lacp
+        active: true
+        fast_rate: true
+      link_watch:
+        name: ethtool
+    interfaces:
+      eth3: {}
+      eth4: {}
+```
+
+Shared configuration common to all team interfaces maybe defined in the `team_defaults` hash
+
+```yaml
+network_config::team_defaults
+  team_config:
+    runner:
+      name: lacp
+      active: true
+      fast_rate: true
+    link_watch:
+      name: ethtool
+
+network_config::teams:
+  team0:
+    interfaces:
+      eth3: {}
+      eth4: {}
+```
+
+both configure in `team0`
+
+```
+TEAM_CONFIG='{"runner":{"name":"lacp","active":true,"fast_rate":true},"link_watch":{"name":"ethtool"}}'
+```
+
+Teaming also allows interface specific settings defined in the `team_port_config` Hash. Eg:
+
+```yaml
+network_config::teams:
+  team0:
+    interfaces:
+      eth3:
+        team_port_config:
+          prio: 100
+      eth4: {}
+```
+
+This will configure for `eth3` only
+
+```
+TEAM_PORT_CONFIG='{"prio":100}'
+```
+
+You can also specify `team_port_config` in the interface types if you use the same options over multiple
+interfaces.
+
+Instead of specifiying the content of `team_config` or `team_port_config` as Hash they can also be defined
+directly as a String containing json. In this case the String value will be used as-is and be written to
+the file surounded with single quotes.
+
 ## Configuration parameter reference
 
 | Parameter | NM configured option | |
@@ -419,6 +531,10 @@ BONDING_OPTS=miimon=100 mode=1
 | nm_controlled | NM_CONTROLLED  |   |
 | peerdns | PEERDNS |   |
 | gateway | GATEWAY |   |
+| devicetype | DEVICETYPE |   |
+| team_master | TEAM_MASTER |   |
+| team_port_config | TEAM_PORT_CONFIG |   |
+| team_config | TEAM_CONFIG |   |
 
 ## Author
 

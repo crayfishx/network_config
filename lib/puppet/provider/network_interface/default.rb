@@ -37,11 +37,15 @@ Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provi
     'NM_CONTROLLED',
     'NAME',
     'PEERDNS',
-    'GATEWAY'
+    'GATEWAY',
+    'DEVICETYPE',
+    'TEAM_MASTER',
+    'TEAM_PORT_CONFIG',
+    'TEAM_CONFIG',
   ]
 
   FIELDS = FIELDS_LC
-    
+
   mk_resource_methods
 
   FIELDS.each do |f|
@@ -59,7 +63,7 @@ Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provi
   def exists?
     @property_hash[:ensure] == :present
   end
-   
+
   def create
     @property_flush[:ensure] = :present
     FIELDS.each do |f|
@@ -101,13 +105,14 @@ Puppet::Type.type(:network_interface).provide(:default, :parent => Puppet::Provi
     instances = []
     ifcfg_files.each do |file|
       data = load_file_data(file)
-      attrs = { 
+      attrs = {
         :target => file,
-        :ensure => :present, 
+        :ensure => :present,
       }
       FIELDS.each do |field|
         if val = data.get_value('',field)
-          attrs[setting_to_param(field)]=val.gsub(/\"/,'')
+          val = val.gsub(/\A(\")|(\")\z/,'') unless val.include?(' ')
+          attrs[setting_to_param(field)]=val
         end
       end
 
