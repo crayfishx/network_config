@@ -1,8 +1,8 @@
 # == Class: network_config
 #
 # This is a bespoke network configuration module for managing sysconfig
-# interface settings on RHEL.  
-# 
+# interface settings on RHEL.
+#
 # We don't want to manage the entire file with a template (like example42/network)
 # as there are some pre-filled values such as UUID and HWADDR that we don't want
 # to manage but we still want the values left in the file, so using a template
@@ -19,7 +19,7 @@
 # configuration to be as simple, readable and uncomplicated as possible for
 # the user.
 #
-# 
+#
 # === Parameters
 #
 #
@@ -162,8 +162,7 @@ class network_config (
 
 
   $bond_names = keys($bonds)
-  network_config::interface { $bond_names: }
-  network_config::interface { $parsed_ints: }
+  network_config::interface { [ $bond_names, $parsed_ints ].flatten.unique: }
 
   # If we have enabled purging, purge interfaces... we never purge
   # the loopback interface
