@@ -9,7 +9,7 @@
 
 
 
-### Introduction 
+### Introduction
 
 This module takes a rather complex set of hiera data to manage network infrastructures on Network Manager based systems (eg: RHEL7).  It supports:
 
@@ -76,7 +76,7 @@ This type takes an IP address as the resource title.  Supported parameters are:
 
 Note that only one of `prefix` or `netmask` should be used.
 
-Multiple IP addresses bound to the same interface will be configured with their numerical identifier (eg: `IPADDR0`, `PREFIX0`, `IPADDR1`, `PREFIX1`, `IPADDR2`, `PREFIX2`...etc).  The provider also ensures that when removing an IP allocation for an interface that all the numerican identifiers are re-sorted if there are gaps in the sequence, since Network Manager will not read beyond the first gap.
+Multiple IP addresses bound to the same interface will be configured with their numerical identifier (eg: `IPADDR0`, `PREFIX0`, `IPADDR1`, `PREFIX1`, `IPADDR2`, `PREFIX2`...etc).  The provider also ensures that when removing an IP allocation for an interface that all the numerical identifiers are re-sorted if there are gaps in the sequence, since Network Manager will not read beyond the first gap.
 
 IP addresses are considered unique, therefore changing the `interface` parameter will have the effect of moving the IP allocation from one interface to another
 
@@ -155,7 +155,7 @@ class { 'network_config': }
 | `bond_defaults`   | Optional hash of default configuration for bond configuration | {} |
 | `exclude_if`      | List of interfaces to exclude from management, even if `interfaces` has them | lo |
 | `networkmanager`  | True or false, is NetworkManager enabled (to be deprecated) | RHEL7 true, RHEL6 false |
-| `purge_interfaces` | True or false, whether or not to purge non managed interfaes (this will completely remove the ifcfg-<interface> file for interfaces not being managed by Puppet.  Any interface matching a device name of `lo` or a name of `loopback`  will not be purged | false |
+| `purge_interfaces` | True or false, whether or not to purge non managed interfaces (this will completely remove the ifcfg-<interface> file for interfaces not being managed by Puppet.  Any interface matching a device name of `lo` or a name of `loopback`  will not be purged | false |
 | `purge_ip_allocations` | True or false, whether or not to purge unmanaged IP addresses, an IP address matching `127.0.0.1` or with the interface `lo` will not be purged | false |
 | `restart_service`* | Whether or not to restart the network service on change | true |
 | `restart_interface`* | Whether or not to restart the affected network interface on change | false |
@@ -186,10 +186,11 @@ network_config::interface_names:
   eth1: application
   eth2: backup
 ```
+*interface_names* is a meaningfull label only used within the context of hiera and puppet.
 
 #### `network_config::defaults`
 
-Now that we have our interface type names deifined in `interface_names` we can add some global defaults to each of these interface types.  We have the opportunity to override these in specific circumstances, but things that are generally global such as domain, can be configured as defaults.  Eg:
+Now that we have our interface type names defined in `interface_names` we can add some global defaults to each of these interface types.  We have the opportunity to override these in specific circumstances, but things that are generally global such as domain, can be configured as defaults.  Eg:
 
 ```yaml
 network_config::defaults:
@@ -239,7 +240,7 @@ network_config::vlans:
     gateway: 10.0.6.3
 ```
 
-Note that any configuration parameter can be overriden here for a specific vhost, eg:
+Note that any configuration parameter can be overridden here for a specific vhost, eg:
 
 ```yaml
 network_config::vlans:
@@ -278,13 +279,13 @@ The `ipaddr` parameter can also take an array
 
 ```yaml
 network_config::ifconfig:
-  applciation:
+  application:
     ipaddr:
       - 10.0.8.101
       - 10.0.8.102
     vlan: 100
 ```
- 
+
 In the above example we will end up with a configuration file that contains
 
 ```
@@ -332,7 +333,7 @@ network_config::interface_names:
   bond0: application
 ```
 
-This will configure `bond0` as an application interface inheriting all of our defaults from that type.  We also have `eth3` and `eth3` configured with general bonding defaults.
+This will configure `bond0` as an application interface inheriting all of our defaults from that type.  We also have `eth3` and `eth4` configured with general bonding defaults.
 
 The final step is to define which real interfaces are slaves of which bond interfaces, we do this with the `bonds` parameter.
 
@@ -352,7 +353,7 @@ MASTER=bond0
 SLAVE=yes
 ```
 
-... aswell as all the inherited configuration from the `bond_interface` type.
+... as well as all the inherited configuration from the `bond_interface` type.
 
 The `bonds` hash can also contain other bond specific configuration to apply to the bond interface (`bond0` in our example). Eg:
 

@@ -165,9 +165,7 @@ class network_config (
 
   $bond_names = keys($bonds)
   $team_names = keys($teams)
-  network_config::interface { $bond_names: }
-  network_config::interface { $team_names: }
-  network_config::interface { $parsed_ints: }
+  network_config::interface { [ $bond_names, $parsed_ints, $team_names ].flatten.unique: }
 
   # If we have enabled purging, purge interfaces... we never purge
   # the loopback interface
