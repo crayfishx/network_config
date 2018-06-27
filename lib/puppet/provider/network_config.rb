@@ -29,7 +29,7 @@ class Puppet::Provider::Network_config < Puppet::Provider
 
   def self.ifcfg_files
     files = Dir.glob(File.join(CONF_DIR, "ifcfg-*"))
-    files.reject{|file| file.end_with?('.bak')}
+    files.reject{|file| file.end_with?('.bak', '.old')}
   end
 
   def self.conf_dir
