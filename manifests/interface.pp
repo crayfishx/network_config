@@ -44,7 +44,7 @@ define network_config::interface  (
     fail("Interface ${title} not configured in interface_names")
   }
 
-  # If we are a bond interface, add the slave patrameter
+  # If we are a bond interface, add the slave parameter
   #
   $bonds = $::network_config::bonds
   $master = $bonds.map | $b, $v| {
@@ -153,13 +153,15 @@ define network_config::interface  (
   $resource = { "${title}" => $params_merged }
 
 
-  # Pass the resource and defaults hash to create_resources to declare
+  # Pass the resource and defaults hash to iterator to declare
   # a network_config::ifconfig resource to manage the individual parts
   # of the sysconfig file.
   if ( $int_type ) {
-    create_resources('network_config::ifconfig', $resource , $int_defaults)
+    $resource.each | $resource_name, $data | {
+      network_config::ifconfig { $resource_name:
+        * => { before => Service["ifconfig-${name}"] } + $int_defaults + $data
+      }
+    }
   }
 
 }
-
-
