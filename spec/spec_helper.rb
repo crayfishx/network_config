@@ -3,6 +3,10 @@ require 'fakefs/spec_helpers'
 require 'pp'
 require 'puppet'
 
+require 'rspec-puppet'
+require 'rspec-puppet-facts'
+include RspecPuppetFacts
+
 dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift File.join(dir, 'lib')
 

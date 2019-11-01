@@ -145,8 +145,9 @@ class network_config (
     fail('Only one of restart_interface or restart_service can be enabled')
   }
 
-  service { 'network':
+  service { 'NetworkManager':
     ensure => running,
+    enable => true,
   }
 
   # Create an array of configured interfaces, minus any to be excluded
