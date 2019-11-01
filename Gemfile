@@ -6,6 +6,7 @@ gem "puppetlabs_spec_helper"
 gem "hiera-puppet-helper"
 gem "fakefs"
 gem "rspec-puppet"
+gem 'rspec-puppet-facts', :require => false
 
 
 # JSON must be 1.x on Ruby 1.9

@@ -129,7 +129,7 @@ define network_config::interface  (
 
   # Set the correct service to restart
   if $::network_config::restart_service {
-    $notify_resource = { 'notify' => Service['network'] }
+    $notify_resource = { 'notify' => Service['NetworkManager'] }
   } elsif $::network_config::restart_interface {
     $notify_resource = { 'notify' => Service["ifconfig-${name}"] }
   } else {
